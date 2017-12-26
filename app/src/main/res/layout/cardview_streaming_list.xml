@@ -21,7 +21,7 @@
 
         <variable
             name="viewercount"
-            type="Integer" />
+            type="int" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/tools"
@@ -101,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@{viewercount}"
+                            android:text="@{Integer.toString(viewercount)}"
                             android:textColor="#FFFFFF"
                             android:textSize="11dp" />
 

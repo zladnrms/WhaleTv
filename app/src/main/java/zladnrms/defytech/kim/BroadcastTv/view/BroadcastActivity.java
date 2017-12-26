@@ -38,12 +38,12 @@ import net.ossrs.yasea.SrsRecordHandler;
 import java.io.IOException;
 import java.net.SocketException;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.BroadcastContract;
-import zladnrms.defytech.kim.BroadcastTv.Netty.Client.NettyClient;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ChangeSubjectPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ChatPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.EndingPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.EntryPacket;
+import zladnrms.defytech.kim.BroadcastTv.contract.BroadcastContract;
+import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.packet.ChangeSubjectPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.EndingPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.ChatListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityBroadcastBinding;

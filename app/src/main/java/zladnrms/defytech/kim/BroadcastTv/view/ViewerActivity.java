@@ -50,12 +50,10 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.orhanobut.logger.Logger;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.ViewerContract;
-import zladnrms.defytech.kim.BroadcastTv.GlobalApplication;
-import zladnrms.defytech.kim.BroadcastTv.Netty.Client.NettyClient;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ChangeSubjectPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ChatPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.EntryPacket;
+import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
+import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.ChatListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityViewerBinding;

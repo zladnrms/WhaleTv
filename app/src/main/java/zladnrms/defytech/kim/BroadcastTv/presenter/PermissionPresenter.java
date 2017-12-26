@@ -1,7 +1,6 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.IntroContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.PermissionContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.PermissionContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;

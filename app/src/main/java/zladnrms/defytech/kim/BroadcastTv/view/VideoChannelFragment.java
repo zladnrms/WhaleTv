@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.VideoChannelContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.VideoChannelContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.RecentVideoListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.FragmentVideoChannelBinding;

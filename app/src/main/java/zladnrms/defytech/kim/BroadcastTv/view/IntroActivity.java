@@ -1,28 +1,13 @@
 package zladnrms.defytech.kim.BroadcastTv.view;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hwangjr.rxbus.annotation.Subscribe;
-import com.hwangjr.rxbus.annotation.Tag;
-import com.orhanobut.logger.Logger;
-
-import rx.Observable;
-import rx.Subscriber;
-import zladnrms.defytech.kim.BroadcastTv.Contract.IntroContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.IntroContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityIntroBinding;
-import zladnrms.defytech.kim.BroadcastTv.eventbus.LoginEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.presenter.IntroPresenter;
 

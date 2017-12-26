@@ -19,12 +19,9 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.extractor.flv.FlvExtractor;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.LoopingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
@@ -38,14 +35,11 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.VideoViewerContract;
-import zladnrms.defytech.kim.BroadcastTv.GlobalApplication;
+import zladnrms.defytech.kim.BroadcastTv.contract.VideoViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityVideoViewerBinding;
-import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityViewerBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.presenter.VideoViewerPresenter;
-import zladnrms.defytech.kim.BroadcastTv.presenter.ViewerPresenter;
 
 public class VideoViewerActivity extends AppCompatActivity implements VideoViewerContract.View {
 

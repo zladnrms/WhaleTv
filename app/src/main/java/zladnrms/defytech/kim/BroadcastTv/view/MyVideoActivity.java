@@ -5,15 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.MyBookmarkContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.MyVideoContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.MyVideoContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
-import zladnrms.defytech.kim.BroadcastTv.adapter.MyBookmarkListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.adapter.MyVideoListAdapter;
-import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityMyBookmarkBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
-import zladnrms.defytech.kim.BroadcastTv.presenter.MyBookmarkPresenter;
 import zladnrms.defytech.kim.BroadcastTv.presenter.MyVideoPresenter;
 
 public class MyVideoActivity extends AppCompatActivity implements MyVideoContract.View {

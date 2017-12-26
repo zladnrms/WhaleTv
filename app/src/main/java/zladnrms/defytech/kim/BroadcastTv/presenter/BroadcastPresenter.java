@@ -1,12 +1,8 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hwangjr.rxbus.RxBus;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observer;
@@ -14,9 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import zladnrms.defytech.kim.BroadcastTv.Contract.BroadcastContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.BroadcastJavaCvContract;
-import zladnrms.defytech.kim.BroadcastTv.eventbus.ChangeSubjectEvent;
+import zladnrms.defytech.kim.BroadcastTv.contract.BroadcastContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepository;
@@ -29,7 +23,6 @@ import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.view.BroadcastActivity;
 
 /**
  * Created by kim on 2017-06-22.

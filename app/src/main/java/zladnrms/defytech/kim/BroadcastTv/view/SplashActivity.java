@@ -1,14 +1,11 @@
 package zladnrms.defytech.kim.BroadcastTv.view;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -17,18 +14,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
-import com.orhanobut.logger.Logger;
-import com.tedpark.tedpermission.rx2.TedRx2Permission;
 
-import java.util.ArrayList;
-
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import zladnrms.defytech.kim.BroadcastTv.Contract.SplashContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.SplashContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivitySplashBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.LoginEvent;

@@ -12,7 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import zladnrms.defytech.kim.BroadcastTv.Contract.ViewerContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.BookmarkEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
@@ -94,11 +94,11 @@ public class ViewerPresenter implements ViewerContract.Presenter{
     }
 
     @Override
-    public void addBookmark(Context context, String streamer) {
+    public void addBookmark(Context context, String streamerNickname) {
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
-                .addBookmark(nickname, streamer)
+                .addBookmark(nickname, streamerNickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BookmarkRepo>() {
@@ -117,7 +117,7 @@ public class ViewerPresenter implements ViewerContract.Presenter{
                                 if (repo.getResponse().get(i).getResult() != null) {
                                     Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                     if (repo.getResponse().get(i).getResult().equals("success")) {
-                                        Toast.makeText(context, streamer + "님을 즐겨찾기하였습니다", Toast.LENGTH_SHORT);
+                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기하였습니다", Toast.LENGTH_SHORT);
                                         view.bookmarkrefresh();
                                     }
                                 }
@@ -140,11 +140,11 @@ public class ViewerPresenter implements ViewerContract.Presenter{
     }
 
     @Override
-    public void delBookmark(Context context, String streamer) {
+    public void delBookmark(Context context, String streamerNickname) {
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
-                .delBookmark(nickname, streamer)
+                .delBookmark(nickname, streamerNickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BookmarkRepo>() {
@@ -163,7 +163,7 @@ public class ViewerPresenter implements ViewerContract.Presenter{
                                 if (repo.getResponse().get(i).getResult() != null) {
                                     Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                     if (repo.getResponse().get(i).getResult().equals("success")) {
-                                        Toast.makeText(context, streamer + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT);
+                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT);
                                         view.bookmarkrefresh();
                                     }
                                 }

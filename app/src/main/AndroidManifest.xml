@@ -67,12 +67,12 @@
             />
 
         <!-- FCM 서비스 2개 -->
-        <service android:name=".FCM.FirebaseMessagingService">
+        <service android:name=".fcm.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FCM.FirebaseInstanceIDService">
+        <service android:name=".fcm.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

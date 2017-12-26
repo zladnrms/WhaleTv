@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,9 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
-import zladnrms.defytech.kim.BroadcastTv.*;
-import zladnrms.defytech.kim.BroadcastTv.Contract.MainContract;
-import zladnrms.defytech.kim.BroadcastTv.Netty.Client.NettyClient;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ConnectPacket;
+import zladnrms.defytech.kim.BroadcastTv.contract.MainContract;
+import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.packet.ConnectPacket;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityMainBinding;
 import zladnrms.defytech.kim.BroadcastTv.presenter.MainPresenter;

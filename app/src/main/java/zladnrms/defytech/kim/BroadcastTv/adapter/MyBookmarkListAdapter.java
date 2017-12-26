@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import zladnrms.defytech.kim.BroadcastTv.R;
+import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyBookmarkListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyBookmarkListDataModel;
-import zladnrms.defytech.kim.BroadcastTv.adapter.view.MyBookmarkListAdapterView;
+import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyBookmarkListAdapterPresenter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyBookmarkBinding;
-import zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo;
 
-public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAdapter.ViewHolder> implements MyBookmarkListDataModel, MyBookmarkListAdapterView {
+public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAdapter.ViewHolder> implements MyBookmarkListDataModel, MyBookmarkListAdapterContract.View {
 
     private static final String thumbnailUrl = "http://52.79.108.8/thumbnail/";
 
     private ArrayList<String> bookmarkList = new ArrayList<String>();
     private Context context;
+    private MyBookmarkListAdapterPresenter presenter;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RecyclerviewMyBookmarkBinding binding;
@@ -34,6 +35,8 @@ public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAd
 
     public MyBookmarkListAdapter(Context context) {
         this.context = context;
+        presenter = new MyBookmarkListAdapterPresenter();
+        presenter.attachView(this);
     }
 
     @Override
@@ -52,6 +55,8 @@ public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAd
 
         holder.binding.btnDelete.setOnClickListener(v -> {
             // 즐겨찾기 삭제
+            presenter.delete(context, nickname);
+            remove(position);
         });
 
     }
@@ -73,7 +78,7 @@ public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAd
 
     @Override
     public void remove(int position) {
-
+        bookmarkList.remove(position);
     }
 
     @Override

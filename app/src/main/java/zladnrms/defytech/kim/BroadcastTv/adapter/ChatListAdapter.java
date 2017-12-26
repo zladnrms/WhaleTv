@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import zladnrms.defytech.kim.BroadcastTv.R;
+import zladnrms.defytech.kim.BroadcastTv.adapter.contract.ChatListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.ChatListDataModel;
-import zladnrms.defytech.kim.BroadcastTv.adapter.view.ChatListAdapterView;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewChatListBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
 
-public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> implements ChatListDataModel, ChatListAdapterView {
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> implements ChatListDataModel, ChatListAdapterContract.View {
 
     private ArrayList<ChatInfo> chatList = new ArrayList<ChatInfo>();
     private Context context;

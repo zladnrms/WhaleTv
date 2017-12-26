@@ -1,11 +1,6 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
-import android.content.Context;
-
-import java.util.ArrayList;
-
-import zladnrms.defytech.kim.BroadcastTv.Contract.AccountContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.MyBookmarkContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.AccountContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;

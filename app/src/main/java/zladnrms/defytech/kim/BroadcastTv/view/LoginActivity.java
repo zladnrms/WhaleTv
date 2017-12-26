@@ -14,11 +14,10 @@ import android.widget.Toast;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
-import com.orhanobut.logger.Logger;
 
 import java.util.regex.Pattern;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.LoginContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.LoginContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityLoginBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.LoginEvent;

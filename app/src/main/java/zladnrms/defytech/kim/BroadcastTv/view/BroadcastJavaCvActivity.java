@@ -40,17 +40,16 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.BroadcastJavaCvContract;
-import zladnrms.defytech.kim.BroadcastTv.Packet.EndingPacket;
+import zladnrms.defytech.kim.BroadcastTv.contract.BroadcastJavaCvContract;
+import zladnrms.defytech.kim.BroadcastTv.packet.EndingPacket;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.ChatListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityBroadcastJavacvBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
-import zladnrms.defytech.kim.BroadcastTv.Netty.Client.NettyClient;
-import zladnrms.defytech.kim.BroadcastTv.Packet.ChatPacket;
-import zladnrms.defytech.kim.BroadcastTv.Packet.EntryPacket;
-import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityBroadcastBinding;
+import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.presenter.BroadcastJavaCvPresenter;
 
 import com.google.gson.JsonSyntaxException;

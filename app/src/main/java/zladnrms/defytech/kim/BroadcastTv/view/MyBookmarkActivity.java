@@ -5,14 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.AccountContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.MyBookmarkContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.MyBookmarkContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.MyBookmarkListAdapter;
-import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityAccountBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityMyBookmarkBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
-import zladnrms.defytech.kim.BroadcastTv.presenter.AccountPresenter;
 import zladnrms.defytech.kim.BroadcastTv.presenter.MyBookmarkPresenter;
 
 public class MyBookmarkActivity extends AppCompatActivity implements MyBookmarkContract.View {

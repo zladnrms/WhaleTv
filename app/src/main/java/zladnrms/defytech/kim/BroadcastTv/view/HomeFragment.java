@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
-import zladnrms.defytech.kim.BroadcastTv.Contract.HomeContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.HomeContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.RoomListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.FragmentHomeBinding;

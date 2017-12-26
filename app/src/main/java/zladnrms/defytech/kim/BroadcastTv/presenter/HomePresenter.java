@@ -1,34 +1,21 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.widget.EditText;
 
 import com.orhanobut.logger.Logger;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import zladnrms.defytech.kim.BroadcastTv.Contract.HomeContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.HomeContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
-import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkListRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.RoomDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.view.BroadcastActivity;
 
 /**
  * Created by kim on 2017-06-22.

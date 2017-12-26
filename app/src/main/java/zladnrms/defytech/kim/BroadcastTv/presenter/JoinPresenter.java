@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import zladnrms.defytech.kim.BroadcastTv.Contract.JoinContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.JoinContract;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;

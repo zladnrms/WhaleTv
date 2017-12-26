@@ -1,22 +1,9 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import com.orhanobut.logger.Logger;
-
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import zladnrms.defytech.kim.BroadcastTv.Contract.IntroContract;
-import zladnrms.defytech.kim.BroadcastTv.eventbus.LoginEvent;
-import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
+import zladnrms.defytech.kim.BroadcastTv.contract.IntroContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
-import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.LoginDataRepo;
 
 /**
  * Created by kim on 2017-06-22.

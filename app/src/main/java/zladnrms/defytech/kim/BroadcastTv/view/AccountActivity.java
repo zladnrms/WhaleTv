@@ -4,13 +4,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.AccountContract;
-import zladnrms.defytech.kim.BroadcastTv.Contract.MyBookmarkContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.AccountContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityAccountBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.presenter.AccountPresenter;
-import zladnrms.defytech.kim.BroadcastTv.presenter.MyBookmarkPresenter;
 
 public class AccountActivity extends AppCompatActivity implements AccountContract.View {
 

@@ -16,7 +16,7 @@ import com.hwangjr.rxbus.annotation.Tag;
 
 import java.util.regex.Pattern;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.JoinContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.JoinContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityJoinBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;

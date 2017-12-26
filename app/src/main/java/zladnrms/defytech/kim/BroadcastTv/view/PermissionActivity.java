@@ -12,7 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import zladnrms.defytech.kim.BroadcastTv.Contract.PermissionContract;
+import zladnrms.defytech.kim.BroadcastTv.contract.PermissionContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityPermissionBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;

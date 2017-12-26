@@ -17,16 +17,14 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 
 import zladnrms.defytech.kim.BroadcastTv.R;
+import zladnrms.defytech.kim.BroadcastTv.adapter.contract.RecentVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.RecentVideoListDataModel;
-import zladnrms.defytech.kim.BroadcastTv.adapter.view.RecentVideoListAdapterView;
 import zladnrms.defytech.kim.BroadcastTv.databinding.CardviewRecentVideoListBinding;
-import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewRecentVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.view.VideoViewerActivity;
 
-public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoListAdapter.ViewHolder> implements RecentVideoListDataModel, RecentVideoListAdapterView {
+public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoListAdapter.ViewHolder> implements RecentVideoListDataModel, RecentVideoListAdapterContract.View {
 
-    private static final String recentvideoUrl = "http://52.79.108.8/recent/";
     private static final String recentThumbnailUrl = "http://52.79.108.8/thumbnail/";
 
     private ArrayList<VideoInfo> videoList = new ArrayList<VideoInfo>();

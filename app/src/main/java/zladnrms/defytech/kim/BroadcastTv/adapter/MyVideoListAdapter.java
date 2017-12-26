@@ -10,15 +10,12 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import zladnrms.defytech.kim.BroadcastTv.R;
-import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyBookmarkListDataModel;
+import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyVideoListDataModel;
-import zladnrms.defytech.kim.BroadcastTv.adapter.view.MyBookmarkListAdapterView;
-import zladnrms.defytech.kim.BroadcastTv.adapter.view.MyVideoListAdapterView;
-import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyBookmarkBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 
-public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.ViewHolder> implements MyVideoListDataModel, MyVideoListAdapterView {
+public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.ViewHolder> implements MyVideoListDataModel, MyVideoListAdapterContract.View {
 
     private ArrayList<VideoInfo> videoList = new ArrayList<VideoInfo>();
     private Context context;

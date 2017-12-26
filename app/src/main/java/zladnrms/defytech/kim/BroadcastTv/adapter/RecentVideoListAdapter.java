@@ -56,15 +56,15 @@ public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoList
 
         VideoInfo videoInfo = videoList.get(position);
         holder.binding.setVideodata(videoInfo);
+        holder.binding.setNickname(videoInfo.getStreamerNickname());
+        //holder.binding.setSubject(videoInfo.ge);
+        holder.binding.setViewercount(videoInfo.getCount());
 
         String filename = videoInfo.getFilename();
         int videoId = videoInfo.getVideoId();
         String id = videoInfo.getStreamerId();
         String nickname = videoInfo.getStreamerNickname();
-        String recordDate = videoInfo.getRecordDate();
-        int viewCount = videoInfo.getViewCount();
-
-        Logger.d(viewCount + " : " + nickname + " : " + id);
+        int viewCount = videoInfo.getCount();
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(context, VideoViewerActivity.class);
@@ -84,14 +84,6 @@ public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoList
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .into(holder.binding.ivRecentVideoThumbnail);
-        }
-
-        if (holder.binding.tvRecentVideoStreamer != null) {
-            holder.binding.tvRecentVideoStreamer.setText(nickname);
-        }
-
-        if (holder.binding.tvRecentVideoViewercount != null) {
-            holder.binding.tvRecentVideoViewercount.setText(String.valueOf(viewCount));
         }
     }
 

@@ -55,6 +55,9 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
 
         RoomInfo roomInfo = roomList.get(position);
         holder.binding.setRoomdata(roomInfo);
+        holder.binding.setNickname(roomInfo.getStreamerNickname());
+        holder.binding.setSubject(roomInfo.getSubject());
+        holder.binding.setViewercount(roomInfo.getCount());
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(context, ViewerActivity.class);
@@ -76,18 +79,6 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .into(holder.binding.ivStreaminglistThumbnail);
-        }
-
-        if (holder.binding.tvStreaminglistSubject != null) {
-            holder.binding.tvStreaminglistSubject.setText(roomInfo.getSubject());
-        }
-
-        if (holder.binding.tvStreaminglistStreamer != null) {
-            holder.binding.tvStreaminglistStreamer.setText(roomInfo.getStreamerNickname());
-        }
-
-        if (holder.binding.tvStreaminglistViewercount != null) {
-            holder.binding.tvStreaminglistViewercount.setText(String.valueOf(roomInfo.getCount()));
         }
     }
 

@@ -26,28 +26,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="4">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_my_video_thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/tv_nickname"
+                    android:id="@+id/iv_my_video_subject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{nickname}"
-                    android:textColor="#1266FF"
-                    android:textSize="15sp" />
+                    android:text="제목"
+                    android:textSize="13sp"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/iv_my_video_viewercount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="13sp"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 

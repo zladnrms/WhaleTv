@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "8072894385",
+    "firebase_url": "https://broadcasttv-e01c0.firebaseio.com",
+    "project_id": "broadcasttv-e01c0",
+    "storage_bucket": "broadcasttv-e01c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8072894385:android:0802e8152d3942c9",
+        "android_client_info": {
+          "package_name": "zladnrms.defytech.kim.BroadcastTv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8072894385-ksk6k9682usge0ot4da3oa8l92q86tm8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "zladnrms.defytech.kim.BroadcastTv",
+            "certificate_hash": "204dd17f52ed3f26ebf8cd9c9dff03f622bc6cda"
+          }
+        },
+        {
+          "client_id": "8072894385-7lqvukeuv0ggljhjgo31qs86dl85cl0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8cpFV1YIh9Pu6C1iDREjI-SFzbTXfyEQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8072894385-7lqvukeuv0ggljhjgo31qs86dl85cl0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

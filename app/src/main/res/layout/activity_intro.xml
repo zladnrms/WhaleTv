@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sl="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#368AFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/main_textview"
+                sl:scale_base_width="1000"
+                sl:scale_base_height="1400">
+
+                <!-- 어플 이름 이미지-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_whale"
+                    sl:scale_width="500"
+                    sl:scale_height="410"
+                    sl:scale_left="250"
+                    sl:scale_top="200" />
+
+                <!--android:background="@android:color/white"-->
+                <!-- 어플 로고 이미지-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    sl:scale_width="800"
+                    sl:scale_height="500"
+                    sl:scale_left="100"
+                    sl:scale_top="800" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/main_textview"
+                android:layout_marginBottom="30dp"
+                sl:scale_base_width="1000"
+                sl:scale_base_height="300">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Whale Tv에 오신 것을 환영합니다."
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    sl:scale_height="250"
+                    sl:scale_left="0"
+                    sl:scale_textsize="50"
+                    sl:scale_top="50"
+                    sl:scale_width="1000"
+                    sl:textview_wrapcontent_direction="bottom"
+                    sl:textview_wrapcontent_movesiblings="true"
+                    sl:textview_wrapcontent_resizesurrounded="true" />
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="로그인"
+                    android:textSize="17sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:background="#368AFF"/>
+
+                <Button
+                    android:id="@+id/btn_join"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="회원가입"
+                    android:textSize="17sp"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:background="#368AFF"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>

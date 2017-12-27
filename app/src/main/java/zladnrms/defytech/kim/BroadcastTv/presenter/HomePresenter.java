@@ -105,6 +105,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     @Override
                     public void onComplete() {
                         Logger.t("HomePresenter-onNext").d("onComplete");
+                        view.refresh();
                     }
                 });
     }

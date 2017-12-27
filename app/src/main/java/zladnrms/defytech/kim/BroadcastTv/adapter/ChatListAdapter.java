@@ -52,14 +52,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             public void onClick(View v) {
             }
         });
-
-        if (holder.binding.tvNickname != null) {
-            holder.binding.tvNickname.setText(chatInfo.getNickname());
-        }
-
-        if (holder.binding.tvChat != null) {
-            holder.binding.tvChat.setText(chatInfo.getChat());
-        }
     }
 
     @Override

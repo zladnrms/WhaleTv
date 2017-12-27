@@ -55,9 +55,6 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
 
         RoomInfo roomInfo = roomList.get(position);
         holder.binding.setRoomdata(roomInfo);
-        holder.binding.setNickname(roomInfo.getStreamerNickname());
-        holder.binding.setSubject(roomInfo.getSubject());
-        holder.binding.setViewercount(roomInfo.getCount());
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(context, ViewerActivity.class);

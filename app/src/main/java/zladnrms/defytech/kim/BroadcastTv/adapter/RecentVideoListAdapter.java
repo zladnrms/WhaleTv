@@ -56,9 +56,6 @@ public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoList
 
         VideoInfo videoInfo = videoList.get(position);
         holder.binding.setVideodata(videoInfo);
-        holder.binding.setNickname(videoInfo.getStreamerNickname());
-        //holder.binding.setSubject(videoInfo.ge);
-        holder.binding.setViewercount(videoInfo.getCount());
 
         String filename = videoInfo.getFilename();
         int videoId = videoInfo.getVideoId();

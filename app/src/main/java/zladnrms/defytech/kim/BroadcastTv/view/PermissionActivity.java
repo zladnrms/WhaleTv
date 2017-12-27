@@ -27,9 +27,9 @@ public class PermissionActivity extends AppCompatActivity implements PermissionC
     private ActivityPermissionBinding binding;
 
     /* collaspe variable */
-    private boolean showCamera = false;
-    private boolean showRecord = false;
-    private boolean showStorage = false;
+    private boolean showCamera = true;
+    private boolean showRecord = true;
+    private boolean showStorage = true;
 
     public  static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
 
@@ -84,22 +84,13 @@ public class PermissionActivity extends AppCompatActivity implements PermissionC
         binding.btnAccept.setOnClickListener(v -> {
             checkAndroidVersion();
         });
-
-
-        RxBus.get().register(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.get().unregister(this);
+
         presenter.detachView(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
     }
 
     /* Check Android Version*/

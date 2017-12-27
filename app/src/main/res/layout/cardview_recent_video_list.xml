@@ -10,18 +10,6 @@
         <variable
             name="videodata"
             type="zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo" />
-
-        <variable
-            name="subject"
-            type="String" />
-
-        <variable
-            name="nickname"
-            type="String" />
-
-        <variable
-            name="viewercount"
-            type="int" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/tools"
@@ -62,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
-                        android:text="@{subject}"
+                        android:text="@{videodata.filename}"
                         android:textColor="#FFFFFF"
                         android:textSize="19sp" />
 
@@ -77,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:maxLines="1"
-                            android:text="@{nickname}"
+                            android:text="@{videodata.streamerNickname}"
                             android:textColor="#1266FF"
                             android:textSize="11sp" />
 
@@ -92,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@{Integer.toString(viewercount)}"
+                            android:text="@{Integer.toString(videodata.count)}"
                             android:textColor="#FFFFFF"
                             android:textSize="11dp" />
 

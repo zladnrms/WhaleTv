@@ -9,12 +9,8 @@
             type="zladnrms.defytech.kim.BroadcastTv.adapter.MyBookmarkListAdapter.ViewHolder" />
 
         <variable
-            name="subject"
-            type="String" />
-
-        <variable
-            name="viewercount"
-            type="int" />
+            name="videodata"
+            type="zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo" />
     </data>
 
     <FrameLayout
@@ -58,7 +54,7 @@
                     android:id="@+id/iv_my_video_subject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{subject}"
+                    android:text="@{videodata.filename}"
                     android:textSize="13sp"
                     android:textColor="#000000" />
 
@@ -66,7 +62,7 @@
                     android:id="@+id/iv_my_video_viewercount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{Integer.toString(viewercount)}"
+                    android:text="@{Integer.toString(videodata.count)}"
                     android:textSize="13sp"
                     android:textColor="#000000" />
 

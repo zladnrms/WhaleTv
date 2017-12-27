@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+
 import zladnrms.defytech.kim.BroadcastTv.contract.MyVideoContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.MyVideoListAdapter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
+import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.presenter.MyVideoPresenter;
 
 public class MyVideoActivity extends AppCompatActivity implements MyVideoContract.View {
@@ -42,16 +45,27 @@ public class MyVideoActivity extends AppCompatActivity implements MyVideoContrac
         binding.rvMyVideoList.setLayoutManager(verticalLayoutmanager);
         binding.rvMyVideoList.setAdapter(rv_my_video_adapter);
 
+        binding.swipeRefreshMyVideoLayout.setOnRefreshListener(() -> {
+            presenter.clear();
+            presenter.getVideoList(MyVideoActivity.this);
+        });
     }
 
-    /*
-    * 즐겨찾기 String 마다 Adapter에 데이터로 추가가    * */
+    @Override
+    public void getVideoData(ArrayList<VideoInfo> video) {
+        for(int i = 0; i < video.size(); i ++) {
+            VideoInfo videoInfo = video.get(i);
+            rv_my_video_adapter.add(videoInfo);
+            presenter.refresh();
+        }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        //presenter.getUserBookmarkList(this);
+        presenter.clear();
+        presenter.getVideoList(MyVideoActivity.this);
     }
 
     @Override
@@ -70,5 +84,6 @@ public class MyVideoActivity extends AppCompatActivity implements MyVideoContrac
     @Override
     public void refresh() {
         rv_my_video_adapter.refresh();
+        binding.swipeRefreshMyVideoLayout.setRefreshing(false);
     }
 }

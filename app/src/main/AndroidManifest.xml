@@ -82,7 +82,8 @@
         <activity android:name=".view.IntroActivity" />
         <activity android:name=".view.AccountActivity" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.JoinActivity"/>
+        <activity android:name=".view.JoinActivity"/>/>
+        <activity android:name=".view.MyVideoActivity"/>
         <activity android:name=".view.MyBookmarkActivity"/>
         <activity android:name=".view.PermissionActivity"/>
     </application>

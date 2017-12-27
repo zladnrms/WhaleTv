@@ -12,10 +12,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -80,13 +82,21 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View hView = navigationView.getHeaderView(0);
-        TextView tv_my_bookmark = (TextView) hView.findViewById(R.id.tv_my_bookmark);
-        tv_my_bookmark.setOnClickListener(v-> {
+
+        LinearLayout layout_my_video = (LinearLayout) hView.findViewById(R.id.layout_my_video);
+        layout_my_video.setOnClickListener(v-> {
+            Intent intent = new Intent(MainActivity.this, MyVideoActivity.class);
+            startActivity(intent);
+        });
+
+        LinearLayout layout_my_bookmark = (LinearLayout) hView.findViewById(R.id.layout_my_bookmark);
+        layout_my_bookmark.setOnClickListener(v-> {
             Intent intent = new Intent(MainActivity.this, MyBookmarkActivity.class);
             startActivity(intent);
         });
-        TextView tv_logout = (TextView) hView.findViewById(R.id.tv_logout);
-        tv_logout.setOnClickListener(v-> {
+
+        LinearLayout layout_logout = (LinearLayout) hView.findViewById(R.id.layout_logout);
+        layout_logout.setOnClickListener(v-> {
             presenter.logout();
 
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);

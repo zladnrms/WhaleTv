@@ -34,8 +34,35 @@
 
         </LinearLayout>
 
-        <!-- Favorite Star -->
+        <!-- My Record Video List -->
         <LinearLayout
+            android:id="@+id/layout_my_video"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_video" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="left|center"
+                android:text="영상 관리"
+                android:textColor="#ffffff"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- My Bookmark List -->
+        <LinearLayout
+            android:id="@+id/layout_my_bookmark"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
@@ -49,11 +76,10 @@
                 android:src="@drawable/ic_bookmark_no" />
 
             <TextView
-                android:id="@+id/tv_my_bookmark"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="left|center"
-                android:text="나의 즐겨찾기"
+                android:text="즐겨찾기 관리"
                 android:textColor="#ffffff"
                 android:textSize="13sp"
                 android:textStyle="bold" />
@@ -62,6 +88,7 @@
 
         <!-- Log out -->
         <LinearLayout
+            android:id="@+id/layout_logout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
@@ -75,7 +102,6 @@
                 android:src="@drawable/ic_exit" />
 
             <TextView
-                android:id="@+id/tv_logout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="left|center"

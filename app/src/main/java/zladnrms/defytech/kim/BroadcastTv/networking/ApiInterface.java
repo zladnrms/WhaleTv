@@ -13,6 +13,7 @@ import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMTokenRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.JoinDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.LoginDataRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.RoomDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
@@ -64,6 +65,10 @@ public interface ApiInterface {
 
     @POST(folderName + "/content/get_record_video.php")
     Observable<VideoDataRepo> videoData();
+
+    @FormUrlEncoded
+    @POST(folderName + "/content/del_record_video.php")
+    Observable<ResultRepo> deleteVideo(@Field("videoId") int videoId, @Field("filename") String filename);
 
     @FormUrlEncoded
     @POST(folderName + "/content/get_record_video.php")

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyVideoListDataModel;
+import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyVideoListAdapterPresenter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.view.VideoViewerActivity;
@@ -27,6 +28,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
 
     private ArrayList<VideoInfo> videoList = new ArrayList<VideoInfo>();
     private Context context;
+    private MyVideoListAdapterPresenter presenter;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RecyclerviewMyVideoBinding binding;
@@ -40,6 +42,8 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
 
     public MyVideoListAdapter(Context context) {
         this.context = context;
+        presenter = new MyVideoListAdapterPresenter();
+        presenter.attachView(this);
     }
 
     @Override
@@ -81,6 +85,11 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     .into(holder.binding.ivMyVideoThumbnail);
         }
 
+        holder.binding.btnDelete.setOnClickListener(v -> {
+            // 즐겨찾기 삭제
+            presenter.delete(context, videoId, filename);
+            remove(position);
+        });
     }
 
     @Override

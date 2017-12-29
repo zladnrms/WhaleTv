@@ -40,7 +40,7 @@ public class MyVideoActivity extends AppCompatActivity implements MyVideoContrac
         presenter = new MyVideoPresenter();
         presenter.attachView(this);
 
-        rv_my_video_adapter = new MyVideoListAdapter(this);
+        rv_my_video_adapter = new MyVideoListAdapter(getApplicationContext());
         LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         binding.rvMyVideoList.setLayoutManager(verticalLayoutmanager);
         binding.rvMyVideoList.setAdapter(rv_my_video_adapter);

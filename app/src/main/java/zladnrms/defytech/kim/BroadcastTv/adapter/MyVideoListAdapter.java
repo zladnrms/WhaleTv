@@ -109,7 +109,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
 
     @Override
     public void remove(int position) {
-
+        videoList.remove(position);
     }
 
     @Override

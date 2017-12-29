@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity
 
         View hView = navigationView.getHeaderView(0);
 
+        /* Navigation Header에 set Nickname*/
+        TextView tv_nickname = (TextView) hView.findViewById(R.id.tv_drawerheader_nickname);
+        tv_nickname.setText(presenter.getUserNickname(MainActivity.this));
+
+        /* Menu Button in Navigation Header */
         LinearLayout layout_my_video = (LinearLayout) hView.findViewById(R.id.layout_my_video);
         layout_my_video.setOnClickListener(v-> {
             Intent intent = new Intent(MainActivity.this, MyVideoActivity.class);
@@ -114,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         presenter.saveUserNickname(MainActivity.this, intent.getStringExtra("nickname"));
         presenter.saveUserRoomId(MainActivity.this, -1);
 
+        /* Send FCMToken for refresh token after login success*/
         presenter.sendFCMToken(MainActivity.this);
     }
 

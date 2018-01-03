@@ -303,7 +303,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (CheckNetworkStatus.isConnectedToNetwork(context)) {
-                    Logger.d("ㅇㅇ " + CheckNetworkStatus.isConnectedToNetwork(context));
                     showCustomToast("상태 : " + CheckNetworkStatus.isConnectedWifiOrOther(context), Toast.LENGTH_SHORT);
                     if (networkCheck) {
                         finish();

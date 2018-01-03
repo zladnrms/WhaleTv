@@ -1,6 +1,9 @@
 package zladnrms.defytech.kim.BroadcastTv.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -40,6 +43,7 @@ import java.net.SocketException;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.BroadcastContract;
 import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChangeSubjectPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EndingPacket;
@@ -88,6 +92,10 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
     /* Connect Flag For EntryPacket Only OneTime Send */
     private boolean connectFlag = false;
+
+    /* Network Change */
+    private BroadcastReceiver mReceiver;
+    private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
 
     public BroadcastActivity() {
     }
@@ -296,6 +304,31 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
         /* RxBus 설정 */
         RxBus.get().register(this);
+
+         /* Set Network Status Receiver*/
+        setReceiver();
+    }
+
+    private void setReceiver() {
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        //동적 리시버 구현
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (CheckNetworkStatus.isConnectedToNetwork(context)) {
+                    showCustomToast("상태 : " + CheckNetworkStatus.isConnectedWifiOrOther(context), Toast.LENGTH_SHORT);
+                    networkCheck = true;
+                } else {
+                    showCustomToast("인터넷 연결 상태를 확인해주세요.", Toast.LENGTH_SHORT);
+                    if (networkCheck) {
+                        finish();
+                    }
+                    networkCheck = true;
+                }
+            }
+        };
+        registerReceiver(mReceiver, intentfilter);
     }
 
     @Override
@@ -416,7 +449,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         super.onDestroy();
 
         recording = false;
-
 
         if (connectFlag) {
             EndingPacket endingPacket = new EndingPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this));

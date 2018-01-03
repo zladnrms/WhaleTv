@@ -1,12 +1,21 @@
 package zladnrms.defytech.kim.BroadcastTv.view;
 
+import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -52,6 +61,7 @@ import com.orhanobut.logger.Logger;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
+import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.R;
@@ -102,11 +112,14 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private boolean connectFlag = false;
 
     /* ExoPlayer */
-
     private static final String TAG = "MainActivity";
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private ExoPlayer.EventListener exoPlayerEventListener;
+
+    /* Network Change */
+    private BroadcastReceiver mReceiver;
+    private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,6 +290,45 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         /* Register Event */
         RxBus.get().register(this);
+
+        /* Set Network Status Receiver*/
+        setReceiver();
+    }
+
+    private void setReceiver() {
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        //동적 리시버 구현
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (CheckNetworkStatus.isConnectedToNetwork(context)) {
+                    Logger.d("ㅇㅇ " + CheckNetworkStatus.isConnectedToNetwork(context));
+                    showCustomToast("상태 : " + CheckNetworkStatus.isConnectedWifiOrOther(context), Toast.LENGTH_SHORT);
+                    if (networkCheck) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                    networkCheck = true;
+                } else {
+                    showCustomToast("인터넷 연결 상태를 확인해주세요.", Toast.LENGTH_SHORT);
+                    if (networkCheck) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                    networkCheck = true;
+                }
+            }
+        };
+        registerReceiver(mReceiver, intentfilter);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Logger.t("onNewIntent").d("onNewIntent!");
+
     }
 
     @Override
@@ -349,7 +401,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                 Logger.d("Subscribe : ViewerActivity : ChatInfo");
                 //Logger.d(((ChattingEvent) object).getChatInfo());
                 Logger.d(((ChatInfo) object).getChat());
-                presenter.addChat((ChatInfo)object);
+                presenter.addChat((ChatInfo) object);
                 presenter.refresh();
                 binding.rvChatList.smoothScrollToPosition(rv_adapter.getItemCount());
             } else if (object instanceof BookmarkEvent) { /* 자신의 Bookmark 목록을 가져와 지금의 Streamer 닉네임과 하나하나 비교 */
@@ -358,18 +410,18 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                     presenter.bookmarkrefresh();
                 }
             } else if (object instanceof EndingEvent) {
-                if(((EndingEvent) object).getRoomId() == roomId && ((EndingEvent) object).getNickname().equals(streamerNickname)) {
+                if (((EndingEvent) object).getRoomId() == roomId && ((EndingEvent) object).getNickname().equals(streamerNickname)) {
                     showCustomToast("방송이 종료되었습니다", Toast.LENGTH_SHORT);
                     finish();
                 }
-            }  else if(object instanceof ChangeSubjectEvent){ /* 방 제목 변경 */
+            } else if (object instanceof ChangeSubjectEvent) { /* 방 제목 변경 */
                 ChangeSubjectEvent cse = (ChangeSubjectEvent) object;
 
                 binding.tvSubject.setText(String.valueOf(cse.getSubject())); /* 숫자만 있을수도 있어서 String.valueOf() 로 처리 */
             } else {
-                Logger.t("ViewerActivity").d("Have not matched class : " + object.getClass() +", " + object.toString());
+                Logger.t("ViewerActivity").d("Have not matched class : " + object.getClass() + ", " + object.toString());
             }
-        }catch (JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             Logger.d("오류발생");
             e.printStackTrace();
         }
@@ -403,6 +455,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             nc.send(1, entryPacket);
         }
 
+        unregisterReceiver(mReceiver);
         RxBus.get().unregister(this);
         presenter.detachView(this);
     }

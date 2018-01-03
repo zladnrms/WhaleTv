@@ -87,6 +87,11 @@ public class PermissionActivity extends AppCompatActivity implements PermissionC
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 

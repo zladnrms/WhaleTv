@@ -22,6 +22,7 @@ import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivitySplashBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.LoginEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
+import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.presenter.SplashPresenter;
 
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
@@ -52,6 +53,18 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         RxBus.get().register(this);
     }
 
+    /* Check Network Status For Login */
+    private void checkNetworkStatusForLogin() {
+        if (!CheckNetworkStatus.isConnectedToNetwork(SplashActivity.this)) {
+            Toast.makeText(SplashActivity.this, "인터넷에 연결되어 있지 않습니다. 연결 후 로그인해주세요.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SplashActivity.this, IntroActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            presenter.autoLogin(SplashActivity.this);
+        }
+    }
+
     /* Check Android Version*/
     private void checkAndroidVersion() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -66,10 +79,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
                 startActivity(intent);
                 finish();
             } else {
-                presenter.autoLogin(SplashActivity.this);
+                checkNetworkStatusForLogin();
             }
         } else {
-            presenter.autoLogin(SplashActivity.this);
+            checkNetworkStatusForLogin();
         }
     }
 
@@ -98,8 +111,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
             finish();
         } else if (loginEvent.getResult().equals("miss_id")) {
             showCustomToast("아이디를 잘못 입력하셨습니다", Toast.LENGTH_SHORT);
+            Intent intent = new Intent(SplashActivity.this, IntroActivity.class);
+            startActivity(intent);
+            finish();
         } else if (loginEvent.getResult().equals("miss_password")) {
             showCustomToast("비밀번호를 잘못 입력하셨습니다", Toast.LENGTH_SHORT);
+            Intent intent = new Intent(SplashActivity.this, IntroActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

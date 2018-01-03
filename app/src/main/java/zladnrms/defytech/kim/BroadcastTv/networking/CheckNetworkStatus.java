@@ -18,11 +18,14 @@ public class CheckNetworkStatus {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         int networkType = networkInfo.getType();
         if(networkType== ConnectivityManager.TYPE_WIFI){
-            //Wifi  연결된 상태
+            // wifi  연결된 상태
             networkType = ConnectivityManager.TYPE_WIFI;
         } else if(networkType == ConnectivityManager.TYPE_MOBILE){
-            //3G  연결된 상태
+            // 3G  연결된 상태
             networkType = ConnectivityManager.TYPE_MOBILE;
+        } else if(networkType == ConnectivityManager.TYPE_WIMAX) {
+            // 태블릿 PC
+            networkType = ConnectivityManager.TYPE_WIMAX;
         }
         return networkType;
     }

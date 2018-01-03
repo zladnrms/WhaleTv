@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.RoomListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.databinding.CardviewStreamingListBinding;
+import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.view.ViewerActivity;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.RoomListDataModel;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo;
@@ -57,13 +60,19 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
         holder.binding.setRoomdata(roomInfo);
 
         holder.itemView.setOnClickListener(v -> {
-                    Intent intent = new Intent(context, ViewerActivity.class);
-                    intent.putExtra("roomId", roomInfo.getRoomId());
-                    intent.putExtra("subject", roomInfo.getSubject());
-                    intent.putExtra("streamerId", roomInfo.getStreamerId());
-                    intent.putExtra("streamerNickname", roomInfo.getStreamerNickname());
-                    intent.putExtra("viewer", roomInfo.getViewer());
-                    context.startActivity(intent);
+                    if (CheckNetworkStatus.isConnectedToNetwork(context)) {
+                        Toast.makeText(context, "인터넷 연결 상태를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(context, ViewerActivity.class);
+                        intent.putExtra("roomId", roomInfo.getRoomId());
+                        intent.putExtra("subject", roomInfo.getSubject());
+                        intent.putExtra("streamerId", roomInfo.getStreamerId());
+                        intent.putExtra("streamerNickname", roomInfo.getStreamerNickname());
+                        intent.putExtra("viewer", roomInfo.getViewer());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    }
+
                 }
         );
 

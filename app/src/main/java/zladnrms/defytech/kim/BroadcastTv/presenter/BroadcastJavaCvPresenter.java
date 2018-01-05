@@ -124,6 +124,7 @@ public class BroadcastJavaCvPresenter implements BroadcastJavaCvContract.Present
                 });
     }
 
+    /*
     @Override
     public void delBroadcastRoom(int roomId, String id, String nickname) {
 
@@ -154,6 +155,7 @@ public class BroadcastJavaCvPresenter implements BroadcastJavaCvContract.Present
                     }
                 });
     }
+    */
 
     @Override
     public void pushBookmark(Context context, String message) {

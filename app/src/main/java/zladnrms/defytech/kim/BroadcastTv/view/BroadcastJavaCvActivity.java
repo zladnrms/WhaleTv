@@ -250,7 +250,7 @@ public class BroadcastJavaCvActivity extends AppCompatActivity implements Broadc
         nc.send(101, endingPacket);
 
         // 만약 방송중이었으면
-        presenter.delBroadcastRoom(roomId, presenter.getUserId(), presenter.getUserNickname(BroadcastJavaCvActivity.this));
+        //presenter.delBroadcastRoom(roomId, presenter.getUserId(), presenter.getUserNickname(BroadcastJavaCvActivity.this));
 
         if (mWakeLock != null) {
             mWakeLock.release();

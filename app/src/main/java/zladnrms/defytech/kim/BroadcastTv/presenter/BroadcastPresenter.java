@@ -181,10 +181,10 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
     }
 
     @Override
-    public void delBroadcastRoom(int roomId, String id, String nickname) {
+    public void delBroadcastRoom(Context context, int roomId, String id, String nickname, int castTime) {
 
         retrofitClient.getApi()
-                .endData(roomId, id, nickname)
+                .endData(roomId, id, nickname, castTime)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<EndDataRepo>() {
@@ -195,7 +195,22 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
 
                     @Override
                     public void onNext(@NonNull EndDataRepo repo) {
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
 
+                            if (repo.getResponse().get(i).getResult() != null) {
+
+                                String result = repo.getResponse().get(i).getResult();
+                                int record = repo.getResponse().get(i).getRecord();
+
+                                Logger.t("BroadcastPresenter-onNext").d(repo.getResponse().get(i).getResult());
+                                if (result.equals("success") && record == 1) {
+                                    Toast.makeText(context, "방송을 종료합니다. 녹화본이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                                } else if(result.equals("success") && record == 0) {
+                                    Toast.makeText(context, "방송을 종료합니다. 30초 내의 방송은 녹화되지 않습니다..", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        }
                     }
 
                     @Override
@@ -234,9 +249,9 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
 
                                 Logger.t("BroadcastPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                 if (repo.getResponse().get(i).getResult().equals("success")) {
-                                    Toast.makeText(context, "팬들에게 방송 시작 알림을 보냈습니다", Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, "팬들에게 방송 시작 알림을 보냈습니다", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(context, "알림을 보낼 팬이 없습니다", Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, "알림을 보낼 팬이 없습니다", Toast.LENGTH_SHORT).show();
                                 }
                             }
 

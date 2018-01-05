@@ -8,8 +8,11 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -96,6 +99,11 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     /* Network Change */
     private BroadcastReceiver mReceiver;
     private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
+
+
+    private int castTime = 0;
+    private AsyncTask<Void, Void, Void> castTimerTask;
+    private volatile boolean castTimerRunning = false;
 
     public BroadcastActivity() {
     }
@@ -460,25 +468,41 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             nc.send(1, entryPacket);
         }
 
-        presenter.delBroadcastRoom(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this));
+        presenter.delBroadcastRoom(BroadcastActivity.this, presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this), castTime);
 
         mPublisher.stopPublish();
         mPublisher.stopRecord();
 
+        unregisterReceiver(mReceiver);
         RxBus.get().unregister(this);
         presenter.detachView(this);
     }
 
     // Start the capture
     public void startRecording() {
+
+        /* 시간 재기 */
+        castTimerRunning = true;
+        castTimerTask = new castTimerTask();
+        castTimerTask.execute();
+
+        /* 방송 시작 */
         mPublisher.startPublish(rtmpUrl);
         mPublisher.startCamera();
 
         recording = true;
+
+        /* 방송 상태 변경 */
         presenter.updateBroadcastStatus(presenter.getUserRoomId(BroadcastActivity.this));
+
     }
 
     public void stopRecording() {
+
+        castTimerTask.cancel(true);
+        castTimerTask = null;
+        System.gc();
+
         // This should stop the audio thread from running
         mPublisher.stopPublish();
         mPublisher.stopRecord();
@@ -486,6 +510,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         if (recording) {
             recording = false;
         }
+
     }
 
     @Override
@@ -762,5 +787,50 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         toast.setView(layout);
         //Display toast
         toast.show();
+    }
+
+    /* Set Timer */
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            castTime ++;
+        }
+    };
+
+    private class castTimerTask extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            while(castTimerRunning) {
+                try {
+                    if(isCancelled()) {
+                        castTimerRunning = false;
+                    }
+                    handler.sendMessage(handler.obtainMessage());
+                    Thread.sleep(1000);
+                } catch (Throwable t) {
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aNull) {
+            super.onPostExecute(aNull);
+        }
+
+        @Override
+        protected void onCancelled() {
+            Logger.d("취소됨");
+            castTimerRunning = false;
+        }
     }
 }

@@ -15,8 +15,15 @@ public class EndDataRepo {
             return result;
         }
 
+        public int getRecord() {
+            return record;
+        }
+
         @SerializedName("result")
         String result;
+
+        @SerializedName("record")
+        int record;
 }
 
     public List<Obj> getResponse() {

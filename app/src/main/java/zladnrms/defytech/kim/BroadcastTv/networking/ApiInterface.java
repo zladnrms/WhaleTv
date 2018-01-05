@@ -46,7 +46,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/room/del_room.php")
-    Observable<EndDataRepo> endData(@Field("roomId") int roomId, @Field("id") String id, @Field("nickname") String nickname);
+    Observable<EndDataRepo> endData(@Field("roomId") int roomId, @Field("id") String id, @Field("nickname") String nickname, @Field("castTime") int castTime);
 
     @FormUrlEncoded
     @POST(folderName + "/room/update_room.php")

@@ -23,6 +23,8 @@ public class VideoDataRepo {
             return streamer_nickname;
         }
 
+        public String getSubject() { return subject; }
+
         public String getFilename() {
             return filename;
         }
@@ -43,6 +45,9 @@ public class VideoDataRepo {
 
         @SerializedName("streamer_nickname")
         String streamer_nickname;
+
+        @SerializedName("subject")
+        String subject;
 
         @SerializedName("filename")
         String filename;

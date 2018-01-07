@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -60,6 +61,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
         holder.binding.setVideodata(videoInfo);
 
         String filename = videoInfo.getFilename();
+        String subject = videoInfo.getSubject();
         int videoId = videoInfo.getVideoId();
         String id = videoInfo.getStreamerId();
         String nickname = videoInfo.getStreamerNickname();
@@ -69,6 +71,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     Intent intent = new Intent(context, VideoViewerActivity.class);
                     intent.putExtra("videoId", videoId);
                     intent.putExtra("nickname", nickname);
+                    intent.putExtra("subject", subject);
                     intent.putExtra("filename", filename);
                     intent.putExtra("viewCount", viewCount);
                     context.startActivity(intent);
@@ -84,6 +87,10 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .into(holder.binding.ivMyVideoThumbnail);
         }
+
+        holder.binding.btnAdjust.setOnClickListener(v -> {
+
+        });
 
         holder.binding.btnDelete.setOnClickListener(v -> {
             // 즐겨찾기 삭제

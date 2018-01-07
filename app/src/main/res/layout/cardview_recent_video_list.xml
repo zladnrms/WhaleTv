@@ -50,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
-                        android:text="@{videodata.filename}"
+                        android:text="@{videodata.subject}"
                         android:textColor="#FFFFFF"
                         android:textSize="19sp" />
 
@@ -67,11 +67,16 @@
                             android:maxLines="1"
                             android:text="@{videodata.streamerNickname}"
                             android:textColor="#1266FF"
-                            android:textSize="11sp" />
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_viewer_count" />
 
@@ -82,7 +87,7 @@
                             android:layout_gravity="center"
                             android:text="@{Integer.toString(videodata.count)}"
                             android:textColor="#FFFFFF"
-                            android:textSize="11dp" />
+                            android:textSize="14dp" />
 
                     </LinearLayout>
 

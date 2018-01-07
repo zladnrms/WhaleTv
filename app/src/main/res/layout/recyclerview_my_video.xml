@@ -47,26 +47,34 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/iv_my_video_subject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{videodata.filename}"
-                    android:textSize="13sp"
-                    android:textColor="#000000" />
+                    android:text="@{videodata.subject}"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/iv_my_video_viewercount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{Integer.toString(videodata.count)}"
-                    android:textSize="13sp"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_adjust"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="수정"
+                android:textSize="13sp" />
 
             <Button
                 android:id="@+id/btn_delete"
@@ -74,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="삭제"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
 

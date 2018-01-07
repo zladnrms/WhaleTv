@@ -13,6 +13,8 @@ public interface MyVideoListAdapterContract {
 
          void detachView(Object view);
 
+         void adjust(Context context, int videoId, String subject);
+
          void delete(Context context, int videoId, String filename);
      }
 }

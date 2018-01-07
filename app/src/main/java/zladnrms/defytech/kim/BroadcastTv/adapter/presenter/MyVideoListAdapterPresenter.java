@@ -47,6 +47,45 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
     }
 
     @Override
+    public void adjust(Context context, int videoId, String subject) {
+
+        retrofitClient.getApi()
+                .adjustVideo(videoId, subject)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultRepo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResultRepo repo) {
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
+                            if (repo.getResponse().get(i).getResult() != null) {
+                                Logger.t("MyVideoListAdapterPresenter-onNext").d(repo.getResponse().get(i).getResult());
+                                if (repo.getResponse().get(i).getResult().equals("success")) {
+                                    // success
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.t("MyVideoListAdapterPresenter-onError").d("에러 발생");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
+                        view.refresh();
+                    }
+                });
+    }
+
+    @Override
     public void delete(Context context, int videoId, String filename) {
 
         retrofitClient.getApi()
@@ -65,9 +104,9 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
                             if (repo.getResponse().get(i).getResult() != null) {
                                 Logger.t("MyVideoListAdapterPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                 if (repo.getResponse().get(i).getResult().equals("success")) {
-                                    Toast.makeText(context, "성공적으로 삭제하였습니다", Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, "성공적으로 삭제하였습니다", Toast.LENGTH_SHORT).show();
                                 } else if(repo.getResponse().get(i).getResult().equals("no_video_exist")) {
-                                    Toast.makeText(context, "파일이 서버에 존재하지 않습니다", Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, "파일이 서버에 존재하지 않습니다", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -85,6 +124,5 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
                         view.refresh();
                     }
                 });
-
     }
 }

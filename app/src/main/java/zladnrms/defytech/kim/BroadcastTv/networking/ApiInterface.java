@@ -67,6 +67,10 @@ public interface ApiInterface {
     Observable<VideoDataRepo> videoData();
 
     @FormUrlEncoded
+    @POST(folderName + "/content/adj_record_subject.php")
+    Observable<ResultRepo> adjustVideo(@Field("videoId") int videoId, @Field("subject") String subject);
+
+    @FormUrlEncoded
     @POST(folderName + "/content/del_record_video.php")
     Observable<ResultRepo> deleteVideo(@Field("videoId") int videoId, @Field("filename") String filename);
 

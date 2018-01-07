@@ -95,8 +95,9 @@ dependencies {
     /* ScalableLayout */
     compile 'com.ssomai:android.scalablelayout:2.1.1'
 
-    /* Permission Setting OpenSource*/
-    compile 'gun0912.ted:tedpermission-rx2:2.0.3'
+    /* Material Design Opensource */
+    compile 'com.github.rey5137:material:1.2.4'
+
     testCompile 'junit:junit:4.12'
     compile project(':library')
 }

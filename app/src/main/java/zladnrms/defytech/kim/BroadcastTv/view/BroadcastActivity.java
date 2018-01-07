@@ -57,6 +57,7 @@ import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityBroadcastBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.ChangeSubjectEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
+import zladnrms.defytech.kim.BroadcastTv.packet.StopPacket;
 import zladnrms.defytech.kim.BroadcastTv.presenter.BroadcastPresenter;
 
 public class BroadcastActivity extends AppCompatActivity implements BroadcastContract.View, RtmpHandler.RtmpListener,
@@ -100,10 +101,15 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     private BroadcastReceiver mReceiver;
     private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
 
-
+    /* Video Record Timer */
+    /* 30초 미만 방송 : 녹화 X, 30초 이상 방송 : 녹화 O */
     private int castTime = 0;
     private AsyncTask<Void, Void, Void> castTimerTask;
     private volatile boolean castTimerRunning = false;
+
+    /* Broadcast Control */
+    /* onStop : */
+    private boolean castStop = false;
 
     public BroadcastActivity() {
     }
@@ -431,11 +437,24 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+        castStop = true;
+        /* 방송 중단 패킷 전송 */
+        StopPacket stopPacket = new StopPacket(presenter.getUserRoomId(BroadcastActivity.this), 50);
+        nc.send(50, stopPacket);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(castStop) {
+            StopPacket stopPacket = new StopPacket(presenter.getUserRoomId(BroadcastActivity.this), 51);
+            nc.send(51, stopPacket);
+        }
         binding.cast.setEnabled(true);
         mPublisher.resumeRecord();
     }

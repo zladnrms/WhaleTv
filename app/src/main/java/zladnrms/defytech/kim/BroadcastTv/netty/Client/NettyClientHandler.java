@@ -8,6 +8,7 @@ import com.orhanobut.logger.Logger;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import zladnrms.defytech.kim.BroadcastTv.eventbus.BroadcastStatusChangeEvent;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChangeSubjectPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.ConnectPacket;
@@ -19,18 +20,17 @@ import zladnrms.defytech.kim.BroadcastTv.eventbus.EndingEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
+import zladnrms.defytech.kim.BroadcastTv.packet.StopPacket;
 
 public class NettyClientHandler extends SimpleChannelInboundHandler<HeaderPacket> {
 
-    /*
-     * 0 입장, 1 퇴장, 2 채팅, 3 포지션 선택, 4 게임 준비, 5 게임 준비 취소, 6 게임 시작, 7 포지션 이동, 8 점프
-     */
     private HeaderPacket headerPacket;
     private EntryPacket entryPacket;
     private ChatPacket chatPacket;
     private ConnectPacket connectPacket;
     private EndingPacket endingPacket;
     private ChangeSubjectPacket csePacket;
+    private StopPacket stopPacket;
 
     // 플레이어 설정
     private NettyClient nc;
@@ -64,6 +64,10 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<HeaderPacket
                         RxBus.get().post("viewer", object);
                 });
             } else if (object instanceof ChangeSubjectEvent) { /* Send Change Subject */
+                mHandler.post(() -> {
+                    RxBus.get().post("viewer", object);
+                });
+            } else if (object instanceof BroadcastStatusChangeEvent) { /* Send Change Broadcast Status (Stop or Renewal) */
                 mHandler.post(() -> {
                     RxBus.get().post("viewer", object);
                 });
@@ -123,6 +127,26 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<HeaderPacket
                     Logger.t("case 200").d(roomId_200 + "번 방, 제목 변경 : " + subject_200);
                     ChangeSubjectEvent cseEvent = new ChangeSubjectEvent(roomId_200, subject_200);
                     DataSend(cseEvent);
+                }
+                break;
+
+            case 50:
+                stopPacket = (StopPacket) headerPacket;
+                int roomId_50 = csePacket.getRoomId();
+                if (roomId == roomId_50) {
+                    Logger.t("case 50").d(roomId_50 + "번 방, 방송 중단");
+                    BroadcastStatusChangeEvent bscEvent = new BroadcastStatusChangeEvent(0);
+                    DataSend(bscEvent);
+                }
+                break;
+
+            case 51:
+                stopPacket = (StopPacket) headerPacket;
+                int roomId_51 = csePacket.getRoomId();
+                if (roomId == roomId_51) {
+                    Logger.t("case 51").d(roomId_51 + "번 방, 방송 재개");
+                    BroadcastStatusChangeEvent bscEvent = new BroadcastStatusChangeEvent(1);
+                    DataSend(bscEvent);
                 }
                 break;
 

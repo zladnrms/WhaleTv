@@ -20,6 +20,7 @@ import zladnrms.defytech.kim.BroadcastTv.packet.ConnectPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EndingPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.HeaderPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.StopPacket;
 
 public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket> {
 
@@ -191,6 +192,38 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
                         channel.writeAndFlush(csePacket_10);
                     } else { // 자기 자신
                         channel.writeAndFlush(csePacket_10);
+                    }
+                }
+                break;
+
+            case 50: // 방송 종료 알림 패킷
+                StopPacket stopPacket_50 = (StopPacket) headerPacket;
+
+                int roomId_50 = stopPacket_50.getRoomId();
+
+                System.out.println("『" + roomId_50 + "』" + " : 방송 일시 중단 ");
+
+                for (Channel channel : channels) {
+                    if (channel != incoming){ // 다른 사람
+                        channel.writeAndFlush(stopPacket_50);
+                    } else { // 자기 자신
+                        channel.writeAndFlush(stopPacket_50);
+                    }
+                }
+                break;
+
+            case 51: // 방송 종료 알림 패킷
+                StopPacket stopPacket_51 = (StopPacket) headerPacket;
+
+                int roomId_51 = stopPacket_51.getRoomId();
+
+                System.out.println("『" + roomId_51 + "』" + " : 방송 일시 중단 ");
+
+                for (Channel channel : channels) {
+                    if (channel != incoming){ // 다른 사람
+                        channel.writeAndFlush(stopPacket_51);
+                    } else { // 자기 자신
+                        channel.writeAndFlush(stopPacket_51);
                     }
                 }
                 break;

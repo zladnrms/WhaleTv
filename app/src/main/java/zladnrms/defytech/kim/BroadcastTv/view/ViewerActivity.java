@@ -60,6 +60,7 @@ import com.hwangjr.rxbus.annotation.Tag;
 import com.orhanobut.logger.Logger;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
+import zladnrms.defytech.kim.BroadcastTv.eventbus.BroadcastStatusChangeEvent;
 import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
@@ -417,6 +418,17 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                 ChangeSubjectEvent cse = (ChangeSubjectEvent) object;
 
                 binding.tvSubject.setText(String.valueOf(cse.getSubject())); /* 숫자만 있을수도 있어서 String.valueOf() 로 처리 */
+            } else if (object instanceof BroadcastStatusChangeEvent) { /* 방송 중단 or 재개 */
+                BroadcastStatusChangeEvent bscEvent = (BroadcastStatusChangeEvent) object;
+
+                switch (bscEvent.getStatus()) {
+                    case 0:
+                        binding.layoutCastStop.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        binding.layoutCastStop.setVisibility(View.VISIBLE);
+                        break;
+                }
             } else {
                 Logger.t("ViewerActivity").d("Have not matched class : " + object.getClass() + ", " + object.toString());
             }

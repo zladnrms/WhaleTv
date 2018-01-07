@@ -15,6 +15,7 @@ import zladnrms.defytech.kim.BroadcastTv.packet.ConnectPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EndingPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.EntryPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.HeaderPacket;
+import zladnrms.defytech.kim.BroadcastTv.packet.StopPacket;
 
 public class NettyClient extends Thread {
 
@@ -33,6 +34,7 @@ public class NettyClient extends Thread {
     private ConnectPacket connectPacket;
     private EndingPacket endingPacket;
     private ChangeSubjectPacket csePacket;
+    private StopPacket stopPacket;
 
     private Context context; // 추가
 
@@ -77,6 +79,12 @@ public class NettyClient extends Thread {
                         case 10:
                             channel.writeAndFlush(this.csePacket);
                             break;
+                        case 50:
+                            channel.writeAndFlush(this.stopPacket);
+                            break;
+                        case 51:
+                            channel.writeAndFlush(this.stopPacket);
+                            break;
                         case 100:
                             channel.writeAndFlush(this.connectPacket);
                             break;
@@ -119,6 +127,16 @@ public class NettyClient extends Thread {
             case 10:
                 this.type = 10;
                 this.csePacket = (ChangeSubjectPacket) headerPacket;
+                submitFlag = true;
+                break;
+            case 50:
+                this.type = 50;
+                this.stopPacket = (StopPacket) headerPacket;
+                submitFlag = true;
+                break;
+            case 51:
+                this.type = 51;
+                this.stopPacket = (StopPacket) headerPacket;
                 submitFlag = true;
                 break;
             case 100:

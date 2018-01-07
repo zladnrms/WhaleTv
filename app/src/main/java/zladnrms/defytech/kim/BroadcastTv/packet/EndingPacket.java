@@ -13,7 +13,7 @@ public class EndingPacket extends HeaderPacket implements Serializable {
     private int roomId;
     private String nickname;
 
-    public EndingPacket(int roomId, String nickname) { // 방 고유번호, 유저명, 채팅 내용, 데이터 길이, 연결 (101)
+    public EndingPacket(int roomId, String nickname) { // 방 고유번호, 유저명, 프로토콜 종류
         super((byte) 101); // 101 = 방송 종료 알림 프로토콜
         this.roomId =  roomId;
         this.nickname = nickname;

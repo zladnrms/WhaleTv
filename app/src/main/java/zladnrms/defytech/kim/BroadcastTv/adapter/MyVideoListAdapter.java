@@ -22,6 +22,7 @@ import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyVideoListDataModel;
 import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyVideoListAdapterPresenter;
+import zladnrms.defytech.kim.BroadcastTv.databinding.CardviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.DialogAdjustSubjectBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
@@ -36,7 +37,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
     private MyVideoListAdapterPresenter presenter;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        RecyclerviewMyVideoBinding binding;
+        CardviewMyVideoBinding binding;
 
         public ViewHolder(View view) {
             super(view);
@@ -53,7 +54,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_my_video, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_my_video, parent, false);
 
         return new ViewHolder(itemView);
     }

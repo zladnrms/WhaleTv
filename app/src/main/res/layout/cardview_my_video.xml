@@ -5,23 +5,11 @@
 
         <variable
             name="holder"
-            type="zladnrms.defytech.kim.BroadcastTv.adapter.RoomListAdapter.ViewHolder" />
+            type="zladnrms.defytech.kim.BroadcastTv.adapter.MyBookmarkListAdapter.ViewHolder" />
 
         <variable
-            name="roomdata"
-            type="zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo" />
-
-        <variable
-            name="subject"
-            type="String" />
-
-        <variable
-            name="nickname"
-            type="String" />
-
-        <variable
-            name="viewercount"
-            type="int" />
+            name="videodata"
+            type="zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/tools"
@@ -48,7 +36,7 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/iv_streaminglist_thumbnail"
+                    android:id="@+id/iv_my_video_thumbnail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -57,9 +45,9 @@
                 <TextView
                     android:layout_width="33dp"
                     android:layout_height="17dp"
-                    android:background="#FF0000"
+                    android:background="#368AFF"
                     android:gravity="center"
-                    android:text="LIVE"
+                    android:text="REC"
                     android:textColor="#FFFFFF"
                     android:textSize="13sp" />
 
@@ -74,11 +62,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_streaminglist_subject"
+                    android:id="@+id/iv_my_video_subject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="@{roomdata.subject}"
+                    android:text="@{videodata.subject}"
                     android:textColor="#000000"
                     android:textSize="19sp" />
 
@@ -87,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:text="@{roomdata.streamerNickname}"
+                    android:text="@{videodata.streamerNickname}"
                     android:textColor="#000000"
                     android:textSize="11sp" />
 
@@ -104,12 +92,47 @@
                         android:textSize="11sp" />
 
                     <TextView
-                        android:id="@+id/tv_streaminglist_viewercount"
+                        android:id="@+id/iv_my_video_viewercount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{Integer.toString(roomdata.count)}"
+                        android:text="@{Integer.toString(videodata.count)}"
                         android:textColor="#000000"
                         android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <!-- 관리 버튼 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="6dp">
+
+                    <Button
+                        android:id="@+id/btn_post"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_lock_blue"/>
+
+                    <Button
+                        android:id="@+id/btn_adjust"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_pencil_blue" />
+
+                    <Button
+                        android:id="@+id/btn_delete"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_delete_blue" />
 
                 </LinearLayout>
 

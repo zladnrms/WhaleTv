@@ -77,6 +77,7 @@ public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoList
             Glide.with(context)
                     .load(recentThumbnailUrl + filename + ".png")
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_profile))
+                    .apply(RequestOptions.fitCenterTransform())
                     .apply(RequestOptions.errorOf(R.drawable.ic_profile))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))

@@ -38,7 +38,8 @@
                 <ImageView
                     android:id="@+id/iv_my_video_thumbnail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"/>
 
             </LinearLayout>
 

@@ -179,6 +179,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         /* 방송 버튼 */
         binding.cast.setOnClickListener(v -> {
 
+            binding.rotate.setVisibility(View.GONE);
             String subject = binding.etSubject.getText().toString();
             String id = presenter.getUserId();
             String nickname = presenter.getUserNickname(BroadcastActivity.this);

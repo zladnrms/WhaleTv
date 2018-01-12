@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -34,6 +35,8 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.orhanobut.logger.Logger;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.VideoViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
@@ -41,7 +44,7 @@ import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityVideoViewerBinding;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.presenter.VideoViewerPresenter;
 
-public class VideoViewerActivity extends AppCompatActivity implements VideoViewerContract.View {
+public class VideoViewerActivity extends AppCompatActivity implements VideoViewerContract.View, SimpleExoPlayer.VideoListener {
 
     /* Data binding */
     private ActivityVideoViewerBinding binding;
@@ -120,6 +123,8 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         // This is the MediaSource representing the media to be played.
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(path),
                 dataSourceFactory, extractorsFactory, null, null);
+
+
 
         player.addListener(new ExoPlayer.EventListener() {
             @Override
@@ -212,5 +217,16 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         player.release();
         RxBus.get().unregister(this);
         presenter.detachView(this);
+    }
+
+    @Override
+    public void onRenderedFirstFrame() {
+
+    }
+
+    @Override
+    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+        Toast.makeText(this, "dqd", Toast.LENGTH_SHORT).show();
+        Logger.t("ViewerActivity").d("width : " + width + " , height : "  + height);
     }
 }

@@ -81,6 +81,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
             Glide.with(context)
                     .load(thumbnailUrl + roomInfo.getStreamerId() + ".png")
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_profile))
+                    .apply(RequestOptions.fitCenterTransform())
                     .apply(RequestOptions.errorOf(R.drawable.ic_profile))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .apply(RequestOptions.skipMemoryCacheOf(true))

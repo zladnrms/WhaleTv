@@ -75,7 +75,7 @@ import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
 import zladnrms.defytech.kim.BroadcastTv.presenter.ViewerPresenter;
 
-public class ViewerActivity extends AppCompatActivity implements ViewerContract.View {
+public class ViewerActivity extends AppCompatActivity implements ViewerContract.View, SimpleExoPlayer.VideoListener {
 
     /* Data binding */
     private ActivityViewerBinding binding;
@@ -491,6 +491,16 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         toast.setView(layout);
         //Display toast
         toast.show();
+    }
+
+    @Override
+    public void onRenderedFirstFrame() {
+
+    }
+
+    @Override
+    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+        Logger.t("ViewerActivity").d("width : " + width + " , height : "  + height);
     }
 
     public void hideKeyboard(EditText et) {

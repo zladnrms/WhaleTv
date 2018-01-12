@@ -37,8 +37,8 @@
             android:id="@+id/exoplayer"
             android:focusable="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:resize_mode="fill"/>
+            android:layout_height="330dp"
+            app:resize_mode="fit"/>
 
         <LinearLayout
             android:layout_width="match_parent"

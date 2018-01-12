@@ -60,7 +60,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
         holder.binding.setRoomdata(roomInfo);
 
         holder.itemView.setOnClickListener(v -> {
-                    if (CheckNetworkStatus.isConnectedToNetwork(context)) {
+                    if (!CheckNetworkStatus.isConnectedToNetwork(context)) {
                         Toast.makeText(context, "인터넷 연결 상태를 확인해주세요.", Toast.LENGTH_SHORT).show();
                     } else {
                         Intent intent = new Intent(context, ViewerActivity.class);

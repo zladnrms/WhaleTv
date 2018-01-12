@@ -68,7 +68,7 @@ public class MyBookmarkListAdapterPresenter implements MyBookmarkListAdapterCont
                                 if (repo.getResponse().get(i).getResult() != null) {
                                     Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                     if (repo.getResponse().get(i).getResult().equals("success")) {
-                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT);
+                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT).show();
                                         view.refresh();
                                     }
                                 }

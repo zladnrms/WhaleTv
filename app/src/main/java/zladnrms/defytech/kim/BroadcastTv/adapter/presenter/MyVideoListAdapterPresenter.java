@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -14,9 +16,11 @@ import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyBookmarkListAdapterC
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
+import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.VideoDataRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -65,7 +69,7 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
                             if (repo.getResponse().get(i).getResult() != null) {
                                 Logger.t("MyVideoListAdapterPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                 if (repo.getResponse().get(i).getResult().equals("success")) {
-                                    // success
+                                    Toast.makeText(context, "제목을 변경하였습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -122,6 +126,49 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
                     public void onComplete() {
                         Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
                         view.refresh();
+                    }
+                });
+    }
+
+    @Override
+    public void refresh(Context context) {
+        String nickname = localRepo.getUserNickname(context);
+
+        /* Roominfo Array For return */
+        ArrayList<VideoInfo> videoArr = new ArrayList<VideoInfo>();
+
+        retrofitClient.getApi()
+                .videoData(nickname)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<VideoDataRepo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull VideoDataRepo repo) {
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
+                            if(repo.getResponse().get(i).getFilename() != null) {
+                                VideoInfo videoInfo = new VideoInfo(repo.getResponse().get(i).getVideo_id(), repo.getResponse().get(i).getStreamer_id(), repo.getResponse().get(i).getStreamer_nickname(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getFilename(), repo.getResponse().get(i).getRecord_date(), repo.getResponse().get(i).getView_count());
+                                videoArr.add(videoInfo);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.t("MyVideoListAdapterPresenter-onError").d("에러 발생");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
+                        view.getList(videoArr);
+                        view.refresh();
+
                     }
                 });
     }

@@ -1,13 +1,16 @@
 package zladnrms.defytech.kim.BroadcastTv.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,6 +22,7 @@ import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyVideoListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyVideoListDataModel;
 import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyVideoListAdapterPresenter;
+import zladnrms.defytech.kim.BroadcastTv.databinding.DialogAdjustSubjectBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.view.VideoViewerActivity;
@@ -89,7 +93,25 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
         }
 
         holder.binding.btnAdjust.setOnClickListener(v -> {
-
+            DialogAdjustSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_adjust_subject, null, false);
+            Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(binding.getRoot());
+            binding.btnSubmit.setOnClickListener(view->{
+                dialog.dismiss();
+                String adjSubject = binding.etSubject.getText().toString();
+                if(adjSubject.trim().equals("")) {
+                    Toast.makeText(context, "빈 제목은 허용되지 않습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    presenter.adjust(context, videoId, adjSubject);
+                    clear();
+                    presenter.refresh(context);
+                }
+            });
+            binding.btnCancel.setOnClickListener(view->{
+                dialog.dismiss();
+            });
+            dialog.show();
         });
 
         holder.binding.btnDelete.setOnClickListener(v -> {
@@ -123,4 +145,14 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
     public void clear() {
         videoList.clear();
     }
+
+    @Override
+    public void getList(ArrayList<VideoInfo> video) {
+        for(int i = 0; i < video.size(); i ++) {
+            VideoInfo videoInfo = video.get(i);
+            add(videoInfo);
+            refresh();
+        }
+    }
+
 }

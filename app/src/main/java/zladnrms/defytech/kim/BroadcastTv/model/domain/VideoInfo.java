@@ -9,8 +9,9 @@ public class VideoInfo { // 녹화 비디오 정보 클래스
     private String filename;
     private String recordDate;
     private int count;
+    private int status;
 
-    public VideoInfo(int _videoId, String _streamerId, String _streamernickname, String _subject, String _filename, String _recordDate, int _count) {
+    public VideoInfo(int _videoId, String _streamerId, String _streamernickname, String _subject, String _filename, String _recordDate, int _count, int _status) {
         this.videoId = _videoId;
         this.streamerId = _streamerId;
         this.streamerNickname = _streamernickname;
@@ -18,6 +19,7 @@ public class VideoInfo { // 녹화 비디오 정보 클래스
         this.filename = _filename;
         this.recordDate = _recordDate;
         this.count = _count;
+        this.status = _status;
     }
 
     public int getVideoId() {
@@ -44,5 +46,18 @@ public class VideoInfo { // 녹화 비디오 정보 클래스
 
     public int getCount() {
         return count;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

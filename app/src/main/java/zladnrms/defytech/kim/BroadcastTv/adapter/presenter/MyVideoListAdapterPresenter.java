@@ -50,6 +50,54 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
         this.view = null;
     }
 
+    public void clear() {
+        view.clear();
+    }
+
+    @Override
+    public void refresh() {
+        view.refresh();
+    }
+
+    @Override
+    public void changeStatus(Context context, int videoId, int status) {
+
+        retrofitClient.getApi()
+                .changeStatus(videoId, status)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultRepo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResultRepo repo) {
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
+                            if (repo.getResponse().get(i).getResult() != null) {
+                                Logger.t("MyVideoListAdapterPresenter-onNext").d(repo.getResponse().get(i).getResult());
+                                if (repo.getResponse().get(i).getResult().equals("success")) {
+                                    Toast.makeText(context, "게시 상태를 변경하였습니다..", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.t("MyVideoListAdapterPresenter-onError").d("에러 발생");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
+                        view.refresh();
+                    }
+                });
+    }
+
     @Override
     public void adjust(Context context, int videoId, String subject) {
 
@@ -126,49 +174,6 @@ public class MyVideoListAdapterPresenter implements MyVideoListAdapterContract.P
                     public void onComplete() {
                         Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
                         view.refresh();
-                    }
-                });
-    }
-
-    @Override
-    public void refresh(Context context) {
-        String nickname = localRepo.getUserNickname(context);
-
-        /* Roominfo Array For return */
-        ArrayList<VideoInfo> videoArr = new ArrayList<VideoInfo>();
-
-        retrofitClient.getApi()
-                .videoData(nickname)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<VideoDataRepo>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull VideoDataRepo repo) {
-                        for (int i = 0; i < repo.getResponse().size(); i++) {
-                            if(repo.getResponse().get(i).getFilename() != null) {
-                                VideoInfo videoInfo = new VideoInfo(repo.getResponse().get(i).getVideo_id(), repo.getResponse().get(i).getStreamer_id(), repo.getResponse().get(i).getStreamer_nickname(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getFilename(), repo.getResponse().get(i).getRecord_date(), repo.getResponse().get(i).getView_count());
-                                videoArr.add(videoInfo);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Logger.t("MyVideoListAdapterPresenter-onError").d("에러 발생");
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Logger.t("MyVideoListAdapterPresenter-onNext").d("onComplete");
-                        view.getList(videoArr);
-                        view.refresh();
-
                     }
                 });
     }

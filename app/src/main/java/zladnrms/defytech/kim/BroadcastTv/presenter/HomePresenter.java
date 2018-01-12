@@ -89,7 +89,7 @@ public class HomePresenter implements HomeContract.Presenter {
                             if (repo.getResponse().get(i).getRoomId() != null) {
                                 Logger.t("HomePresenter-onNext").d(repo.getResponse().get(i).getRoomId() + "," + repo.getResponse().get(i).getStreamerId() + "," + repo.getResponse().get(i).getStreamerNickname() + "," + repo.getResponse().get(i).getViewer() + "," + repo.getResponse().get(i).getSubject() + "," + repo.getResponse().get(i).getStatus());
                                 if (Integer.valueOf(repo.getResponse().get(i).getStatus()) != 0) {
-                                    RoomInfo roomInfo = new RoomInfo(Integer.valueOf(repo.getResponse().get(i).getRoomId()), repo.getResponse().get(i).getStreamerId(), repo.getResponse().get(i).getStreamerNickname(), repo.getResponse().get(i).getViewer(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getCount());
+                                    RoomInfo roomInfo = new RoomInfo(Integer.valueOf(repo.getResponse().get(i).getRoomId()), repo.getResponse().get(i).getStreamerId(), repo.getResponse().get(i).getStreamerNickname(), repo.getResponse().get(i).getViewer(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getViewerCount());
                                     view.getRoomData(roomInfo);
                                 }
                             }

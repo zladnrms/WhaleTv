@@ -67,6 +67,10 @@ public interface ApiInterface {
     Observable<VideoDataRepo> videoData();
 
     @FormUrlEncoded
+    @POST(folderName + "/content/adj_record_status.php")
+    Observable<ResultRepo> changeStatus(@Field("videoId") int videoId, @Field("status") int status);
+
+    @FormUrlEncoded
     @POST(folderName + "/content/adj_record_subject.php")
     Observable<ResultRepo> adjustVideo(@Field("videoId") int videoId, @Field("subject") String subject);
 

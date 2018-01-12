@@ -11,7 +11,7 @@ public interface MyVideoListAdapterContract {
         /* 데이터 갱신 */
         void refresh();
 
-        void getList(ArrayList<VideoInfo> video);
+        void clear();
     }
 
      interface Presenter {
@@ -19,10 +19,15 @@ public interface MyVideoListAdapterContract {
 
          void detachView(Object view);
 
+         void clear();
+
+         void changeStatus(Context context, int videoId, int status);
+
          void adjust(Context context, int videoId, String subject);
 
          void delete(Context context, int videoId, String filename);
 
-         void refresh(Context context);
+         void refresh();
+
      }
 }

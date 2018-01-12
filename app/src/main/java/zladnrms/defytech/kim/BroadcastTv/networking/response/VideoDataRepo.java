@@ -11,16 +11,16 @@ public class VideoDataRepo {
 
     public class Obj {
 
-        public int getVideo_id() {
-            return video_id;
+        public int getVideoId() {
+            return videoId;
         }
 
-        public String getStreamer_id() {
-            return streamer_id;
+        public String getStreamerId() {
+            return streamerId;
         }
 
-        public String getStreamer_nickname() {
-            return streamer_nickname;
+        public String getStreamerNickname() {
+            return streamerNickname;
         }
 
         public String getSubject() { return subject; }
@@ -29,22 +29,26 @@ public class VideoDataRepo {
             return filename;
         }
 
-        public String getRecord_date() {
-            return record_date;
+        public String getRecordDate() {
+            return recordDate;
         }
 
-        public int getView_count() {
-            return view_count;
+        public int getViewCount() {
+            return viewCount;
         }
 
-        @SerializedName("video_id")
-        int video_id;
+        public int getStatus() {
+            return status;
+        }
 
-        @SerializedName("streamer_id")
-        String streamer_id;
+        @SerializedName("videoId")
+        int videoId;
 
-        @SerializedName("streamer_nickname")
-        String streamer_nickname;
+        @SerializedName("streamerId")
+        String streamerId;
+
+        @SerializedName("streamerNickname")
+        String streamerNickname;
 
         @SerializedName("subject")
         String subject;
@@ -52,11 +56,14 @@ public class VideoDataRepo {
         @SerializedName("filename")
         String filename;
 
-        @SerializedName("record_date")
-        String record_date;
+        @SerializedName("recordDate")
+        String recordDate;
 
-        @SerializedName("view_count")
-        int view_count;
+        @SerializedName("viewCount")
+        int viewCount;
+
+        @SerializedName("status")
+        int status;
     }
 
     public List<Obj> getResponse() {

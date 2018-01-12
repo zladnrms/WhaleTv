@@ -35,16 +35,16 @@ public class RoomDataRepo {
             return status;
         }
 
-        public int getCount() {
-            return viewer_count;
+        public int getViewerCount() {
+            return viewerCount;
         }
 
 
         @SerializedName("roomId")
         String roomId;
-        @SerializedName("streamer_id")
+        @SerializedName("streamerId")
         String streamerId;
-        @SerializedName("streamer_nickname")
+        @SerializedName("streamerNickname")
         String streamerNickname;
         @SerializedName("viewer")
         String viewer;
@@ -52,8 +52,8 @@ public class RoomDataRepo {
         String subject;
         @SerializedName("status")
         String status;
-        @SerializedName("viewer_count")
-        int viewer_count;
+        @SerializedName("viewerCount")
+        int viewerCount;
     }
 
     public List<Obj> getResponse() {

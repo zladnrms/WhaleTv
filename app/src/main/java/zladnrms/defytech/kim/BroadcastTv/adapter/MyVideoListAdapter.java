@@ -70,6 +70,7 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
         String id = videoInfo.getStreamerId();
         String nickname = videoInfo.getStreamerNickname();
         int viewCount = videoInfo.getCount();
+        int status = videoInfo.getStatus();
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(context, VideoViewerActivity.class);
@@ -92,6 +93,23 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     .into(holder.binding.ivMyVideoThumbnail);
         }
 
+        switch (status) {
+            case 0:
+                holder.binding.btnPost.setBackgroundResource(R.drawable.ic_lock_blue);
+                break;
+            case 1:
+                holder.binding.btnPost.setBackgroundResource(R.drawable.ic_lock_blue_open);
+                break;
+        }
+
+        holder.binding.btnPost.setOnClickListener(v-> {
+            presenter.changeStatus(context, videoId, status);
+            int adjStatus = 1 - status;
+            videoInfo.setStatus(adjStatus);
+            videoList.set(position, videoInfo);
+            presenter.refresh();
+        });
+
         holder.binding.btnAdjust.setOnClickListener(v -> {
             DialogAdjustSubjectBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_adjust_subject, null, false);
             Dialog dialog = new Dialog(context);
@@ -104,8 +122,9 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     Toast.makeText(context, "빈 제목은 허용되지 않습니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     presenter.adjust(context, videoId, adjSubject);
-                    clear();
-                    presenter.refresh(context);
+                    videoInfo.setSubject(adjSubject);
+                    videoList.set(position, videoInfo);
+                    presenter.refresh();
                 }
             });
             binding.btnCancel.setOnClickListener(view->{
@@ -145,14 +164,4 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
     public void clear() {
         videoList.clear();
     }
-
-    @Override
-    public void getList(ArrayList<VideoInfo> video) {
-        for(int i = 0; i < video.size(); i ++) {
-            VideoInfo videoInfo = video.get(i);
-            add(videoInfo);
-            refresh();
-        }
-    }
-
 }

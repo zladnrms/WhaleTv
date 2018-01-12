@@ -77,7 +77,7 @@ public class MyVideoPresenter implements MyVideoContract.Presenter {
                     public void onNext(@NonNull VideoDataRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
                             if(repo.getResponse().get(i).getFilename() != null) {
-                                VideoInfo videoInfo = new VideoInfo(repo.getResponse().get(i).getVideo_id(), repo.getResponse().get(i).getStreamer_id(), repo.getResponse().get(i).getStreamer_nickname(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getFilename(), repo.getResponse().get(i).getRecord_date(), repo.getResponse().get(i).getView_count());
+                                VideoInfo videoInfo = new VideoInfo(repo.getResponse().get(i).getVideoId(), repo.getResponse().get(i).getStreamerId(), repo.getResponse().get(i).getStreamerNickname(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getFilename(), repo.getResponse().get(i).getRecordDate(), repo.getResponse().get(i).getViewCount(), repo.getResponse().get(i).getStatus());
                                 videoArr.add(videoInfo);
                             }
                         }

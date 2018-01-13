@@ -6,18 +6,15 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkListRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.ChangeSubjectRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMTokenRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.JoinDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.LoginDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.RoomDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.VideoDataRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerCountRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerDataRepo;
 
 public interface ApiInterface {
@@ -38,7 +35,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/member/join.php")
-    Observable<JoinDataRepo> joinData(@Field("id") String id, @Field("password") String password, @Field("nickname") String nickname);
+    Observable<ResultRepo> joinData(@Field("id") String id, @Field("password") String password, @Field("nickname") String nickname);
 
     @FormUrlEncoded
     @POST(folderName + "/room/add_room.php")
@@ -50,11 +47,11 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/room/update_room.php")
-    Observable<UpdateDataRepo> updateData(@Field("roomId") int roomId);
+    Observable<ResultRepo> updateData(@Field("roomId") int roomId);
 
     @FormUrlEncoded
     @POST(folderName + "/room/change_subject.php")
-    Observable<ChangeSubjectRepo> changeSubject(@Field("roomId") int roomId, @Field("subject") String subject);
+    Observable<ResultRepo> changeSubject(@Field("roomId") int roomId, @Field("subject") String subject);
 
     @FormUrlEncoded
     @POST(folderName + "/content/get_bookmark_list.php")
@@ -84,11 +81,15 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/content/up_video_count.php")
-    Observable<UpdateDataRepo> upVideoCount(@Field("videoId") int videoId);
+    Observable<ResultRepo> upVideoCount(@Field("videoId") int videoId);
 
     @FormUrlEncoded
-    @POST(folderName + "/room/get_user_in_room.php")
+    @POST(folderName + "/room/get_viewer_in_room.php")
     Observable<ViewerDataRepo> viewerData(@Field("roomId") int roomId);
+
+    @FormUrlEncoded
+    @POST(folderName + "/room/get_viewer_count.php")
+    Observable<ViewerCountRepo> getViewerCount(@Field("roomId") int roomId);
 
     @FormUrlEncoded
     @POST(folderName + "/content/add_bookmark.php")
@@ -109,5 +110,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/fcm/bookmark_push.php")
-    Observable<FCMRepo> pushBookmark(@Field("nickname") String nickname, @Field("message") String message);
+    Observable<ResultRepo> pushBookmark(@Field("nickname") String nickname, @Field("message") String message);
 }

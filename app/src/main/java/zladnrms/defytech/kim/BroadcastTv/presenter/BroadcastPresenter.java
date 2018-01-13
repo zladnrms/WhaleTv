@@ -18,11 +18,9 @@ import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.ChangeSubjectRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -156,14 +154,14 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
                 .updateData(roomId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UpdateDataRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull UpdateDataRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
                         Logger.d("BroadcastPresenter-update-onNExt");
                     }
 
@@ -236,14 +234,14 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
                 .pushBookmark(nickname, message)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<FCMRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull FCMRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 
@@ -281,14 +279,14 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
                 .changeSubject(roomId, subject)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ChangeSubjectRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull ChangeSubjectRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
                         Logger.d("BroadcastPresenter-update-onNExt");
                     }
 

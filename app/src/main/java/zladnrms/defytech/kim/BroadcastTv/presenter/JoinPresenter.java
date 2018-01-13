@@ -14,7 +14,7 @@ import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.JoinDataRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -50,14 +50,14 @@ public class JoinPresenter implements JoinContract.Presenter {
                 .joinData(id, password, nickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JoinDataRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull JoinDataRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
                             if (repo.getResponse().get(i).getResult() != null) {
                                 Logger.t("JoinPresenter-onNext").d(repo.getResponse().get(i).getResult());

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class JoinDataRepo {
+public class ViewerCountRepo {
 
     @SerializedName("response")
     List<Obj> response;
@@ -15,9 +15,16 @@ public class JoinDataRepo {
             return result;
         }
 
+        public int getViewerCount() {
+            return viewerCount;
+        }
+
         @SerializedName("result")
         String result;
-    }
+
+        @SerializedName("viewerCount")
+        int viewerCount;
+}
 
     public List<Obj> getResponse() {
         return response;

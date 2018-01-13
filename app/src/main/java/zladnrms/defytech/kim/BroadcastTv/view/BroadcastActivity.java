@@ -179,7 +179,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         /* 방송 버튼 */
         binding.cast.setOnClickListener(v -> {
 
-            binding.rotate.setVisibility(View.GONE);
+            binding.btnRotate.setVisibility(View.GONE);
             String subject = binding.etSubject.getText().toString();
             String id = presenter.getUserId();
             String nickname = presenter.getUserNickname(BroadcastActivity.this);
@@ -201,25 +201,25 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             }
         });
 
-        binding.swCam.setOnClickListener(v -> {
+        binding.btnSwCam.setOnClickListener(v -> {
             mPublisher.switchCameraFace((mPublisher.getCamraId() + 1) % Camera.getNumberOfCameras());
         });
 
-        binding.swMic.setOnClickListener(v -> {
+        binding.btnSwMic.setOnClickListener(v -> {
             if (!mute) {
                 mute = true;
                 mPublisher.setSendAudioOnly(false);
                 mPublisher.setSendVideoOnly(true);
-                binding.swMic.setBackgroundResource(R.drawable.ic_mute_on);
+                binding.btnSwMic.setBackgroundResource(R.drawable.ic_mute_on);
             } else {
                 mute = false;
                 mPublisher.setSendAudioOnly(false);
                 mPublisher.setSendVideoOnly(false);
-                binding.swMic.setBackgroundResource(R.drawable.ic_mute_off);
+                binding.btnSwMic.setBackgroundResource(R.drawable.ic_mute_off);
             }
         });
 
-        binding.rotate.setOnClickListener(v -> {
+        binding.btnRotate.setOnClickListener(v -> {
             int currentOrientation = this.getResources().getConfiguration().orientation;
             if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
                 this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

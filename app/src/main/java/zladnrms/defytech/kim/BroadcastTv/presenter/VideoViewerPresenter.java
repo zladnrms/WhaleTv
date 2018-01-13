@@ -15,7 +15,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -68,14 +68,14 @@ public class VideoViewerPresenter implements VideoViewerContract.Presenter{
                     .upVideoCount(videoId)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<UpdateDataRepo>() {
+                    .subscribe(new Observer<ResultRepo>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(@NonNull UpdateDataRepo repo) {
+                        public void onNext(@NonNull ResultRepo repo) {
                             for (int i = 0; i < repo.getResponse().size(); i++) {
 
                             }

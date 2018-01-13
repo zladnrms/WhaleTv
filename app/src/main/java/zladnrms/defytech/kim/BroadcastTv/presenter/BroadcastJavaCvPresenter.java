@@ -18,9 +18,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.UpdateDataRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -100,14 +98,14 @@ public class BroadcastJavaCvPresenter implements BroadcastJavaCvContract.Present
                 .updateData(roomId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UpdateDataRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull UpdateDataRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
 
                     }
 
@@ -163,14 +161,14 @@ public class BroadcastJavaCvPresenter implements BroadcastJavaCvContract.Present
                 .pushBookmark(localRepo.getUserNickname(context), message)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<FCMRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull FCMRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 

@@ -423,10 +423,10 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
                 switch (bscEvent.getStatus()) {
                     case 0:
-                        binding.layoutCastStop.setVisibility(View.GONE);
+                        binding.layoutCastStop.setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        binding.layoutCastStop.setVisibility(View.VISIBLE);
+                        binding.layoutCastStop.setVisibility(View.GONE);
                         break;
                 }
             } else {

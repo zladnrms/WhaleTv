@@ -7,6 +7,13 @@
         android:layout_height="match_parent"
         android:background="#000000">
 
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exoplayer"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            app:resize_mode="fit"/>
+
         <LinearLayout
             android:id="@+id/layout_cast_stop"
             android:layout_width="match_parent"
@@ -32,13 +39,6 @@
                 android:textColor="#368AFF"/>
 
         </LinearLayout>
-
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/exoplayer"
-            android:focusable="true"
-            android:layout_width="match_parent"
-            android:layout_height="330dp"
-            app:resize_mode="fit"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                     android:layout_width="15dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_viewer_count"/>
+                    android:src="@drawable/ic_eye_transparent"/>
 
                 <TextView
                     android:id="@+id/tv_viewer_count"

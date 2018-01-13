@@ -24,7 +24,6 @@ import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyVideoListDataModel;
 import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyVideoListAdapterPresenter;
 import zladnrms.defytech.kim.BroadcastTv.databinding.CardviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.databinding.DialogAdjustSubjectBinding;
-import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyVideoBinding;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.VideoInfo;
 import zladnrms.defytech.kim.BroadcastTv.view.VideoViewerActivity;
 

@@ -82,7 +82,7 @@
                     android:layout_width="15dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_viewer_count"/>
+                    android:src="@drawable/ic_eye_transparent"/>
 
                 <TextView
                     android:id="@+id/tv_viewer_count"

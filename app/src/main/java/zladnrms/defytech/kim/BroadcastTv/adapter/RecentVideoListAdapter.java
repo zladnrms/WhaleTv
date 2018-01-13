@@ -58,15 +58,18 @@ public class RecentVideoListAdapter extends RecyclerView.Adapter<RecentVideoList
         holder.binding.setVideodata(videoInfo);
 
         String filename = videoInfo.getFilename();
+        String subject = videoInfo.getSubject();
         int videoId = videoInfo.getVideoId();
         String id = videoInfo.getStreamerId();
         String nickname = videoInfo.getStreamerNickname();
         int viewCount = videoInfo.getCount();
+        int status = videoInfo.getStatus();
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(context, VideoViewerActivity.class);
                     intent.putExtra("videoId", videoId);
                     intent.putExtra("nickname", nickname);
+            intent.putExtra("subject", subject);
                     intent.putExtra("filename", filename);
                     intent.putExtra("viewCount", viewCount);
                     context.startActivity(intent);

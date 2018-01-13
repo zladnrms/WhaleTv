@@ -47,7 +47,6 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_streaming_list, parent, false);
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_streaming_list, parent, false);
 
         return new ViewHolder(itemView);

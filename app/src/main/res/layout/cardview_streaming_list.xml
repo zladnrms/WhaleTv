@@ -80,7 +80,7 @@
                     android:maxLines="2"
                     android:text="@{roomdata.subject}"
                     android:textColor="#000000"
-                    android:textSize="19sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_streaminglist_streamer"
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="@{roomdata.streamerNickname}"
-                    android:textColor="#000000"
+                    android:textColor="#2478FF"
                     android:textSize="11sp" />
 
                 <LinearLayout
@@ -100,8 +100,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="조회수"
+                        android:layout_marginRight="5dp"
                         android:textColor="#000000"
-                        android:textSize="11sp" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/tv_streaminglist_viewercount"
@@ -109,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:text="@{Integer.toString(roomdata.count)}"
                         android:textColor="#000000"
-                        android:textSize="11sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 

@@ -82,6 +82,10 @@
                     android:text="방 제목"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="3"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
                     android:background="@android:color/transparent"/>
 
                 <Button
@@ -89,7 +93,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="9dp"
-                    android:background="@drawable/ic_pencil" />
+                    android:background="@drawable/ic_pencil_transparent" />
 
                 <Button
                     android:id="@+id/btn_edit_subject_submit"
@@ -116,7 +120,11 @@
                     android:layout_width="15dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_viewer_count"/>
+                    android:shadowColor="#000000"
+                    android:shadowDx="3"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
+                    android:src="@drawable/ic_eye_transparent"/>
 
                 <TextView
                     android:id="@+id/tv_viewer_count"
@@ -125,7 +133,11 @@
                     android:maxLength="20"
                     android:text="1"
                     android:textColor="#FFFFFF"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="3"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"/>
 
             </LinearLayout>
 
@@ -159,7 +171,7 @@
                 android:layout_width="23dp"
                 android:layout_height="23dp"
                 android:layout_marginBottom="14dp"
-                android:background="@drawable/ic_mute_off" />
+                android:background="@drawable/ic_mute_on" />
 
             <Button
                 android:id="@+id/rotate"

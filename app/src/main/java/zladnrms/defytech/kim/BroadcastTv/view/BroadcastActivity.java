@@ -476,8 +476,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     protected void onDestroy() {
         super.onDestroy();
 
-        recording = false;
-
         if (connectFlag) {
             EndingPacket endingPacket = new EndingPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this));
             nc.send(101, endingPacket);
@@ -488,8 +486,9 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             nc.send(1, entryPacket);
         }
 
-        presenter.delBroadcastRoom(BroadcastActivity.this, presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this), castTime);
+        presenter.delBroadcastRoom(BroadcastActivity.this, recording, presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this), castTime);
 
+        recording = false;
         mPublisher.stopPublish();
         mPublisher.stopRecord();
 

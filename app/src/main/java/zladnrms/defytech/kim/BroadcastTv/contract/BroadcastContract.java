@@ -55,7 +55,7 @@ public interface BroadcastContract {
 
          void updateBroadcastStatus(int roomId);
 
-         void delBroadcastRoom(Context context, int roomId, String Id, String nickname, int castTime);
+         void delBroadcastRoom(Context context, boolean recording, int roomId, String Id, String nickname, int castTime);
 
          void pushBookmark(Context context, String message);
 

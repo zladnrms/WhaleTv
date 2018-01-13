@@ -132,7 +132,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<HeaderPacket
 
             case 50:
                 stopPacket = (StopPacket) headerPacket;
-                int roomId_50 = csePacket.getRoomId();
+                int roomId_50 = stopPacket.getRoomId();
                 if (roomId == roomId_50) {
                     Logger.t("case 50").d(roomId_50 + "번 방, 방송 중단");
                     BroadcastStatusChangeEvent bscEvent = new BroadcastStatusChangeEvent(0);
@@ -142,7 +142,7 @@ public class NettyClientHandler extends SimpleChannelInboundHandler<HeaderPacket
 
             case 51:
                 stopPacket = (StopPacket) headerPacket;
-                int roomId_51 = csePacket.getRoomId();
+                int roomId_51 = stopPacket.getRoomId();
                 if (roomId == roomId_51) {
                     Logger.t("case 51").d(roomId_51 + "번 방, 방송 재개");
                     BroadcastStatusChangeEvent bscEvent = new BroadcastStatusChangeEvent(1);

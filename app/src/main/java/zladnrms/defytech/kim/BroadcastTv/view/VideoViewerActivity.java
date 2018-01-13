@@ -56,6 +56,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     private int videoId;
     private String nickname;
     private String videoUrl = "http://52.79.108.8/record/";
+    private String subject;
     private String filename;
     private int viewCount;
     private String path;
@@ -85,9 +86,11 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
 
         videoId = intent.getIntExtra("videoId", 0);
         nickname = intent.getStringExtra("nickname");
+        subject = intent.getStringExtra("subject");
         filename = intent.getStringExtra("filename");
         viewCount = intent.getIntExtra("viewCount", 0) + 1; // 기존 viewCount + 현재 자신으로 인한 viewCount 증가를 반영 (서버에는 직후 반영)
 
+        binding.tvSubject.setText(subject);
         /* ExoPlayer Setting */
         // set your path here
         path = videoUrl + filename + ".mp4";
@@ -172,8 +175,6 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         binding.btnBack.setOnClickListener(v-> {
             finish();
         });
-
-        binding.tvSubject.setText(nickname + "님의 방송 녹화본입니다");
 
         /* Change Size */
         binding.btnChangesize.setOnClickListener(v -> {

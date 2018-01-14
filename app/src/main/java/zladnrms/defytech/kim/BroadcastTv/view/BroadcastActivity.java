@@ -818,7 +818,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
     private class castTimerTask extends AsyncTask<Void, Void, Void> {
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

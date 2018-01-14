@@ -31,7 +31,6 @@ public interface ViewerContract {
 
      interface Presenter {
 
-
          void attachView(Object view);
 
          void detachView(Object view);
@@ -59,5 +58,9 @@ public interface ViewerContract {
          void BookmarkRefreshSend(String nickname);
 
          void bookmarkrefresh();
+
+         void getViewerCount(Context context, int roomId);
+
+         void ViewerCountRefreshSend(int viewerCount);
      }
 }

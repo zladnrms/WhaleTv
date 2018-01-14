@@ -13,8 +13,11 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +64,7 @@ import com.orhanobut.logger.Logger;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.BroadcastStatusChangeEvent;
+import zladnrms.defytech.kim.BroadcastTv.eventbus.ViewerCountEvent;
 import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
@@ -121,6 +125,13 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     /* Network Change */
     private BroadcastReceiver mReceiver;
     private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
+
+    /* Viewer Refresh Timer */
+    /* 30초 미만 방송 : 녹화 X, 30초 이상 방송 : 녹화 O */
+    private int viewTime = 0;
+    private AsyncTask<Void, Void, Void> viewTimerTask;
+    private volatile boolean viewTimerRunning = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -429,6 +440,9 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                         binding.layoutCastStop.setVisibility(View.GONE);
                         break;
                 }
+            } else if (object instanceof ViewerCountEvent) { /* 방송 중단 or 재개 */
+                ViewerCountEvent vcEvent = (ViewerCountEvent) object;
+                binding.tvViewerCount.setText(Integer.toString(vcEvent.getViewerCount()));
             } else {
                 Logger.t("ViewerActivity").d("Have not matched class : " + object.getClass() + ", " + object.toString());
             }
@@ -451,11 +465,20 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
             connectFlag = true;
         }
+
+
+        viewTimerRunning = true;
+        viewTimerTask = new viewTimerTask();
+        viewTimerTask.execute();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        viewTimerTask.cancel(true);
+        viewTimerTask = null;
+        System.gc();
 
         Logger.t("ViewerActivity - OnDestory").d("Destroy");
 
@@ -505,5 +528,53 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
     public void hideKeyboard(EditText et) {
         imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+    }
+
+    /* get Viewer Count per 30 seconds*/
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            viewTime ++;
+        }
+    };
+
+    private class viewTimerTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            while(viewTimerRunning) {
+                try {
+                    if(isCancelled()) {
+                        viewTimerRunning = false;
+                    }
+                    if(viewTime >= 30) {
+                        viewTime = 0;
+                        presenter.getViewerCount(ViewerActivity.this, roomId);
+                    }
+                    handler.sendMessage(handler.obtainMessage());
+                    Thread.sleep(1000);
+                } catch (Throwable t) {
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aNull) {
+            super.onPostExecute(aNull);
+        }
+
+        @Override
+        protected void onCancelled() {
+            Logger.d("취소됨");
+            viewTimerRunning = false;
+        }
     }
 }

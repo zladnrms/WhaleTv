@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.BookmarkEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.RxBus;
+import zladnrms.defytech.kim.BroadcastTv.eventbus.ViewerCountEvent;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepository;
@@ -23,12 +24,13 @@ import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerCountRepo;
 
 /**
  * Created by kim on 2017-06-22.
  */
 
-public class ViewerPresenter implements ViewerContract.Presenter{
+public class ViewerPresenter implements ViewerContract.Presenter {
 
     /* View */
     private ViewerContract.View view;
@@ -91,6 +93,44 @@ public class ViewerPresenter implements ViewerContract.Presenter{
     @Override
     public void changeMode() {
         view.changeMode();
+    }
+
+    @Override
+    public void getViewerCount(Context context, int roomId) {
+        retrofitClient.getApi()
+                .getViewerCount(roomId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ViewerCountRepo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ViewerCountRepo repo) {
+
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
+                            String result = repo.getResponse().get(i).getResult();
+                            int viewerCount = repo.getResponse().get(i).getViewerCount();
+
+                            if (result.equals("success")) {
+                                ViewerCountRefreshSend(viewerCount);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.t("ViewerPresenter-onError").d("에러 발생");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     @Override
@@ -244,5 +284,10 @@ public class ViewerPresenter implements ViewerContract.Presenter{
     @Override
     public void bookmarkrefresh() {
         view.bookmarkrefresh();
+    }
+
+    @Override
+    public void ViewerCountRefreshSend(int viewerCount) {
+        RxBus.get().post("viewer", new ViewerCountEvent(viewerCount));
     }
 }

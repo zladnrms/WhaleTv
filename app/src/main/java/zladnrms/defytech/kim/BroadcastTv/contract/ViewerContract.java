@@ -49,6 +49,8 @@ public interface ViewerContract {
 
          void changeMode();
 
+         int getDeviceHeight(Context context);
+
          void addBookmark(Context context, String streamer);
 
          void delBookmark(Context context, String streamer);

@@ -6,16 +6,21 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -23,19 +28,19 @@ import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
-import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.video.VideoRendererEventListener;
 import com.orhanobut.logger.Logger;
 
 import zladnrms.defytech.kim.BroadcastTv.contract.VideoViewerContract;
@@ -69,7 +74,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     private static final String TAG = "MainActivity";
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
-    private ExoPlayer.EventListener exoPlayerEventListener;
+    private AspectRatioFrameLayout aspectRatioFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +103,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         // 1. Create a default TrackSelector
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
         TrackSelector trackSelector =
                 new DefaultTrackSelector(videoTrackSelectionFactory);
 
@@ -127,12 +132,27 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(path),
                 dataSourceFactory, extractorsFactory, null, null);
 
+        /* 초기 AspectRatioFrameLayout Height 설정 */
+        aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+        ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+        params.height = presenter.getDeviceHeight(VideoViewerActivity.this) / 3;
+        aspectRatioFrameLayout.setLayoutParams(params);
 
-
-        player.addListener(new ExoPlayer.EventListener() {
+        /* ExoPlayer Listener */
+        player.addListener(new Player.EventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, Object manifest) {
                 Log.v(TAG, "Listener-onTimelineChanged..." + timeline.getPeriodCount());
+
+            }
+
+            @Override
+            public void onRepeatModeChanged(int repeatMode) {
+
+            }
+
+            @Override
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
 
             }
 
@@ -172,6 +192,14 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
 
+        /* ExoPlayer Custom View */
+        PlaybackControlView controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
+
+        Button btnChangeSize = controlView.findViewById(R.id.btn_changesize);
+        btnChangeSize.setOnClickListener(v -> {
+            presenter.changeMode();
+        });
+
         binding.btnBack.setOnClickListener(v-> {
             finish();
         });
@@ -189,11 +217,24 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
+
+        /* Custom ExoPlayer : ExoPlayer는 화면 전체를 차지하게 하여 비디오 어디든 클릭 시 control view를 나타날 수 있게 처리함 */
+            /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
+            /* like AfreecaTv */
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+            simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            aspectRatioFrameLayout.setLayoutParams(params);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+            params.height = presenter.getDeviceHeight(VideoViewerActivity.this) / 3;
+            aspectRatioFrameLayout.setLayoutParams(params);
         }
     }
 

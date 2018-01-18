@@ -30,14 +30,16 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -46,7 +48,7 @@ import com.google.android.exoplayer2.source.LoopingMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
@@ -120,7 +122,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private static final String TAG = "MainActivity";
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
-    private ExoPlayer.EventListener exoPlayerEventListener;
+    private AspectRatioFrameLayout aspectRatioFrameLayout;
 
     /* Network Change */
     private BroadcastReceiver mReceiver;
@@ -196,7 +198,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         /* 1. Create a default TrackSelector */
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
         TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
         /* 2. Create a default LoadControl */
@@ -241,10 +243,27 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         player.prepare(loopingSource);
 
-        player.addListener(new ExoPlayer.EventListener() {
+        /* 초기 AspectRatioFrameLayout Height 설정 */
+        aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+        ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+        params.height = presenter.getDeviceHeight(ViewerActivity.this) / 3;
+        aspectRatioFrameLayout.setLayoutParams(params);
+
+        /* ExoPlayer Listener */
+        player.addListener(new Player.EventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, Object manifest) {
                 Log.v(TAG, "Listener-onTimelineChanged..." + timeline.getPeriodCount());
+
+            }
+
+            @Override
+            public void onRepeatModeChanged(int repeatMode) {
+
+            }
+
+            @Override
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
 
             }
 
@@ -382,12 +401,36 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
+
+        /* Custom ExoPlayer : ExoPlayer는 화면 전체를 차지하게 하여 비디오 어디든 클릭 시 control view를 나타날 수 있게 처리함 */
+            /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
+            /* like AfreecaTv */
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+            simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            aspectRatioFrameLayout.setLayoutParams(params);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
+            params.height = presenter.getDeviceHeight(ViewerActivity.this) / 3;
+            aspectRatioFrameLayout.setLayoutParams(params);
         }
+
+        /* orientation 변화로 인한 height 변경에 따른 채팅창 높이 변경 */
+        changeChatLayoutHeight();
+    }
+
+    private void changeChatLayoutHeight() {
+        /* Set Height of Chat Layout*/
+        ViewGroup.LayoutParams params = binding.layoutChat.getLayoutParams();
+        // Changes the height and width to the specified *pixels*
+        params.height = presenter.getDeviceHeight(ViewerActivity.this) / 2;
+        binding.layoutChat.setLayoutParams(params);
     }
 
     @Override

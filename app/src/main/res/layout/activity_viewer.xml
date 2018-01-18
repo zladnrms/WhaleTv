@@ -5,7 +5,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000">
+        android:background="#000000"
+        android:keepScreenOn="true">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
             android:id="@+id/exoplayer"
@@ -41,6 +42,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_chat"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_gravity="bottom"

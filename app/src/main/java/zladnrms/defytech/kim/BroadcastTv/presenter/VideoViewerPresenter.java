@@ -1,6 +1,8 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 import com.orhanobut.logger.Logger;
 
@@ -59,6 +61,14 @@ public class VideoViewerPresenter implements VideoViewerContract.Presenter{
     @Override
     public void changeMode() {
         view.changeMode();
+    }
+
+    @Override
+    public int getDeviceHeight(Context context) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        return height;
     }
 
     @Override

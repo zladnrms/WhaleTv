@@ -86,9 +86,7 @@ public class VideoViewerPresenter implements VideoViewerContract.Presenter{
 
                         @Override
                         public void onNext(@NonNull ResultRepo repo) {
-                            for (int i = 0; i < repo.getResponse().size(); i++) {
 
-                            }
                         }
 
                         @Override

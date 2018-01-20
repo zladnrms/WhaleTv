@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="2">
+            android:weightSum="1">
 
             <!-- 최근 방송 영상 -->
             <LinearLayout

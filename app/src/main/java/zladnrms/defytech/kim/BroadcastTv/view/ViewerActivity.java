@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -118,11 +120,15 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     /* Connect Flag For EntryPacket Only OneTime Send */
     private boolean connectFlag = false;
 
-    /* ExoPlayer */
+    /* ExoPlayer and Custom */
     private static final String TAG = "MainActivity";
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
+    private PlaybackControlView controlView;
+    private Button btnBookmark, btnOrientation, btnBack;
+    private TextView tvViewerCount, tvSubject;
+
 
     /* Network Change */
     private BroadcastReceiver mReceiver;
@@ -154,7 +160,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         viewerList = intent.getStringExtra("viewer");
         streamerId = intent.getStringExtra("streamerId");
         streamerNickname = intent.getStringExtra("streamerNickname");
-        binding.tvSubject.setText(subject);
 
         presenter.saveUserRoomId(ViewerActivity.this, roomId);
 
@@ -210,11 +215,12 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         simpleExoPlayerView = new SimpleExoPlayerView(this);
         simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.exoplayer);
         /* Set media controller */
-        simpleExoPlayerView.setUseController(false);
+        simpleExoPlayerView.setUseController(true);
         simpleExoPlayerView.requestFocus();
 
         /*Bind the player to the view*/
         simpleExoPlayerView.setPlayer(player);
+        simpleExoPlayerView.setKeepScreenOn(true);
 
 //VIDEO FROM SD CARD: ( 2 steps. set up file and streamingUrl, then change videoSource to get the file)
 
@@ -302,8 +308,11 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         player.setPlayWhenReady(true);
 
-        /* Toggle Bookmark */
-        binding.btnBookmark.setOnClickListener(v -> {
+        /* ExoPlayer Control By Custom View */
+        controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
+
+        btnBookmark = controlView.findViewById(R.id.btn_bookmark); /* Bookmark button */
+        btnBookmark.setOnClickListener(v -> {
             if (bookmark) {
                 presenter.delBookmark(ViewerActivity.this, streamerNickname);
             } else {
@@ -311,10 +320,20 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             }
         });
 
-        /* Change Size */
-        binding.btnChangesize.setOnClickListener(v -> {
+        btnOrientation = controlView.findViewById(R.id.btn_orientation); /* Orientation Change Button */
+        btnOrientation.setOnClickListener(v -> {
             presenter.changeMode();
         });
+
+        btnBack = controlView.findViewById(R.id.btn_back); /* Back Button */
+        btnBack.setOnClickListener(v-> {
+            finish();
+        });
+
+        tvViewerCount = controlView.findViewById(R.id.tv_viewer_count); /* Viewer Count */
+
+        tvSubject = controlView.findViewById(R.id.tv_subject); /* Viewer Count */
+        tvSubject.setText(String.valueOf(subject));
 
         /* Getting Bookmark Status*/
         presenter.getBookmark(ViewerActivity.this);
@@ -391,10 +410,10 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     public void bookmarkrefresh() {
         if (bookmark) {
             bookmark = false;
-            binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_no);
+            btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_no);
         } else {
             bookmark = true;
-            binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_yes);
+            btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_yes);
         }
     }
 
@@ -408,14 +427,14 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             aspectRatioFrameLayout.setLayoutParams(params);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = presenter.getDeviceHeight(ViewerActivity.this) / 3;
             aspectRatioFrameLayout.setLayoutParams(params);
@@ -438,11 +457,11 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         if (expand) {
             expand = false;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 세로전환
-            binding.btnChangesize.setBackgroundResource(R.drawable.ic_collapse);
+            btnOrientation.setBackgroundResource(R.drawable.ic_collapse);
         } else {
             expand = true;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // 가로전환
-            binding.btnChangesize.setBackgroundResource(R.drawable.ic_expand);
+            btnOrientation.setBackgroundResource(R.drawable.ic_expand);
         }
     }
 
@@ -471,7 +490,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             } else if (object instanceof ChangeSubjectEvent) { /* 방 제목 변경 */
                 ChangeSubjectEvent cse = (ChangeSubjectEvent) object;
 
-                binding.tvSubject.setText(String.valueOf(cse.getSubject())); /* 숫자만 있을수도 있어서 String.valueOf() 로 처리 */
+                tvSubject.setText(String.valueOf(cse.getSubject())); /* 숫자만 있을수도 있어서 String.valueOf() 로 처리 */
             } else if (object instanceof BroadcastStatusChangeEvent) { /* 방송 중단 or 재개 */
                 BroadcastStatusChangeEvent bscEvent = (BroadcastStatusChangeEvent) object;
 
@@ -485,7 +504,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                 }
             } else if (object instanceof ViewerCountEvent) { /* 방송 중단 or 재개 */
                 ViewerCountEvent vcEvent = (ViewerCountEvent) object;
-                binding.tvViewerCount.setText(Integer.toString(vcEvent.getViewerCount()));
+                tvViewerCount.setText(Integer.toString(vcEvent.getViewerCount()));
             } else {
                 Logger.t("ViewerActivity").d("Have not matched class : " + object.getClass() + ", " + object.toString());
             }

@@ -13,6 +13,9 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -69,12 +72,14 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     /* VideoView */
     private boolean expand = true;
 
-    /* ExoPlayer */
-
+    /* ExoPlayer and ExoPlayer Custom */
     private static final String TAG = "MainActivity";
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
+    private PlaybackControlView controlView;
+    private Button btnOrientation, btnBack;
+    private TextView tvViewerCount, tvSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +100,6 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         filename = intent.getStringExtra("filename");
         viewCount = intent.getIntExtra("viewCount", 0) + 1; // 기존 viewCount + 현재 자신으로 인한 viewCount 증가를 반영 (서버에는 직후 반영)
 
-        binding.tvSubject.setText(subject);
         /* ExoPlayer Setting */
         // set your path here
         path = videoUrl + filename + ".mp4";
@@ -192,25 +196,27 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
 
-        /* ExoPlayer Custom View */
-        PlaybackControlView controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
+        /* ExoPlayer Control By Custom View */
+        controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
 
-        Button btnChangeSize = controlView.findViewById(R.id.btn_changesize);
-        btnChangeSize.setOnClickListener(v -> {
+        btnOrientation = controlView.findViewById(R.id.btn_orientation); /* Orientation Change Button */
+        btnOrientation.setOnClickListener(v -> {
             presenter.changeMode();
         });
 
-        binding.btnBack.setOnClickListener(v-> {
+        btnBack = controlView.findViewById(R.id.btn_back); /* Back Button */
+        btnBack.setOnClickListener(v-> {
             finish();
         });
 
-        /* Change Size */
-        binding.btnChangesize.setOnClickListener(v -> {
-            presenter.changeMode();
-        });
+        tvViewerCount = controlView.findViewById(R.id.tv_viewer_count); /* Viewer Count */
+        tvViewerCount.setText(String.valueOf(viewCount));
 
+        tvSubject = controlView.findViewById(R.id.tv_subject); /* Viewer Count */
+        tvSubject.setText(String.valueOf(subject));
+
+        /* Plus One Viewer Count this video (to server) */
         presenter.upVideoCount(videoId);
-        binding.tvViewerCount.setText(String.valueOf(viewCount));
     }
 
 
@@ -224,14 +230,14 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             aspectRatioFrameLayout.setLayoutParams(params);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-            AspectRatioFrameLayout aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
+            aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = presenter.getDeviceHeight(VideoViewerActivity.this) / 3;
             aspectRatioFrameLayout.setLayoutParams(params);
@@ -243,11 +249,13 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         if (expand) {
             expand = false;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 세로전환
-            binding.btnChangesize.setBackgroundResource(R.drawable.ic_collapse);
+
+            btnOrientation.setBackgroundResource(R.drawable.ic_collapse);
         } else {
             expand = true;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // 가로전환
-            binding.btnChangesize.setBackgroundResource(R.drawable.ic_expand);
+
+            btnOrientation.setBackgroundResource(R.drawable.ic_expand);
         }
     }
 

@@ -10,93 +10,13 @@
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
             android:id="@+id/exoplayer"
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            app:resize_mode="fit"/>
-
-        <com.victor.loading.rotate.RotateLoading
-            android:id="@+id/rotateloading"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            app:loading_color="#FFFFFF"
-            app:loading_width="1dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="top"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_back"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="6dp"
-                    android:background="@drawable/ic_backarrow" />
-
-                <TextView
-                    android:id="@+id/tv_subject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="즈바드님의 영상"
-                    android:textSize="17sp"
-                    android:textColor="#FFFFFF"/>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/btn_changesize"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="6dp"
-                    android:background="@drawable/ic_collapse" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="5dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|left"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_eye_transparent"/>
-
-                <TextView
-                    android:id="@+id/tv_viewer_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxLength="20"
-                    android:text="1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:focusable="true"
+            app:controller_layout_id="@layout/exo_playback_control_view_video_viewer"
+            app:player_layout_id="@layout/exo_simple_player_view_video_viewer"
+            app:resize_mode="fit" />
 
     </FrameLayout>
 

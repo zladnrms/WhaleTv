@@ -77,7 +77,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     private SimpleExoPlayer player;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
     private PlaybackControlView controlView;
-    private Button btnOrientation, btnBack;
+    private Button btnLike, btnOrientation, btnBack;
     private TextView tvViewerCount, tvSubject;
 
     @Override
@@ -208,6 +208,11 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
 
     private void initCustomExoPlayerUI() {
         controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
+
+        btnLike = controlView.findViewById(R.id.btn_like); /* Orientation Change Button */
+        btnLike.setOnClickListener(v-> {
+            presenter.like(VideoViewerActivity.this, videoId);
+        });
 
         btnOrientation = controlView.findViewById(R.id.btn_orientation); /* Orientation Change Button */
         btnOrientation.setOnClickListener(v -> {

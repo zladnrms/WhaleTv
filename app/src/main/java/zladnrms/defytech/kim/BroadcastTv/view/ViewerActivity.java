@@ -126,7 +126,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private SimpleExoPlayer player;
     private AspectRatioFrameLayout aspectRatioFrameLayout;
     private PlaybackControlView controlView;
-    private Button btnBookmark, btnOrientation, btnBack;
+    private Button btnBookmark, btnLike, btnOrientation, btnBack;
     private TextView tvViewerCount, tvSubject;
 
 
@@ -355,6 +355,11 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             } else {
                 presenter.addBookmark(ViewerActivity.this, streamerNickname);
             }
+        });
+
+        btnLike = controlView.findViewById(R.id.btn_like); /* Orientation Change Button */
+        btnLike.setOnClickListener(v-> {
+            presenter.like(ViewerActivity.this, streamerNickname);
         });
 
         btnOrientation = controlView.findViewById(R.id.btn_orientation); /* Orientation Change Button */

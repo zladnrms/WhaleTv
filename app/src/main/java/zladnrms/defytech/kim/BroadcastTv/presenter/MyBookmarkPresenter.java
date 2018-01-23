@@ -1,11 +1,8 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,7 +13,6 @@ import zladnrms.defytech.kim.BroadcastTv.contract.MyBookmarkContract;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkListRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
 
 /**

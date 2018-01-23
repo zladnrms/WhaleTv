@@ -66,5 +66,7 @@ public interface ViewerContract {
          void getViewerCount(Context context, int roomId);
 
          void ViewerCountRefreshSend(int viewerCount);
+
+         void like(Context context, String streamerNickname);
      }
 }

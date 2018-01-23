@@ -4,7 +4,6 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkListRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMTokenRepo;
@@ -98,6 +97,14 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST(folderName + "/content/get_bookmark.php")
     Observable<GetBookmarkRepo> getBookmark(@Field("nickname") String nickname);
+
+    @FormUrlEncoded
+    @POST(folderName + "/content/like_streamer.php")
+    Observable<ResultRepo> likeStreamer(@Field("streamerNickname") String streamerNickname, @Field("nickname") String nickname);
+
+    @FormUrlEncoded
+    @POST(folderName + "/content/like_video.php")
+    Observable<ResultRepo> likeVideo(@Field("videoId") int videoId, @Field("nickname") String nickname);
 
     /* Push */
     @FormUrlEncoded

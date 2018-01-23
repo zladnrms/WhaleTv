@@ -19,5 +19,7 @@ public interface VideoViewerContract {
          int getDeviceHeight(Context context);
 
          void upVideoCount(int videoId);
+
+         void like(Context context, int videoId);
      }
 }

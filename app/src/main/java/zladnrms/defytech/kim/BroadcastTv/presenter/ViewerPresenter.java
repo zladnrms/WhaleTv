@@ -27,6 +27,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerCountRepo;
 
 /**
@@ -273,6 +274,44 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    @Override
+    public void like(Context context, String streamerNickname) {
+        String nickname = localRepo.getUserNickname(context);
+
+        retrofitClient.getApi()
+                .likeStreamer(streamerNickname, nickname)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultRepo>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResultRepo repo) {
+                        for (int i = 0; i < repo.getResponse().size(); i++) {
+                            if (repo.getResponse().get(i).getResult().equals("success")) {
+                                Toast.makeText(context, "방송을 추천하였습니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "이미 추천하셨습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Logger.t("VideoViewerPresenter-onError").d("에러 발생");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Logger.t("VideoViewerPresenter-onNext").d("onComplete");
                     }
                 });
     }

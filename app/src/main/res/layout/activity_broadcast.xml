@@ -25,6 +25,14 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <ImageView
+                android:id="@+id/iv_chat_toggle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_chevron_down_white"
+                android:layout_margin="6dp"
+                android:layout_gravity="left"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_chat_list"
                 android:layout_width="match_parent"

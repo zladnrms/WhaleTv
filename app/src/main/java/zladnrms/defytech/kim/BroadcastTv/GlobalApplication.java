@@ -6,7 +6,6 @@ import android.support.multidex.MultiDex;
 
 //import io.realm.Realm;
 import io.realm.Realm;
-import zladnrms.defytech.kim.BroadcastTv.view.BroadcastJavaCvActivity;
 import zladnrms.defytech.kim.BroadcastTv.view.MainActivity;
 import zladnrms.defytech.kim.BroadcastTv.view.ViewerActivity;
 
@@ -15,10 +14,6 @@ import zladnrms.defytech.kim.BroadcastTv.view.ViewerActivity;
  */
 
 public class GlobalApplication extends Application {
-
-    private BroadcastJavaCvActivity broadcastJavaCvActivity;
-    private MainActivity mainActivity;
-    private ViewerActivity viewerActivity;
 
     @Override
     public void onCreate() {

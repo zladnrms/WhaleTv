@@ -13,7 +13,7 @@ public class EntryPacket extends HeaderPacket implements Serializable {
     private int roomId;
     private String nickname;
 
-    public EntryPacket(int roomId, String nickname, int kinds) { // 방 고유번호, 유저명, 프로토콜 종류
+    public EntryPacket(int roomId, String nickname, int kinds) { // 방 고유번호, 유저id, 유저명, 프로토콜 종류
         super((byte) kinds); // 0 = 입장 프로토콜, 1 = 퇴장 프로토콜
         this.roomId = roomId;
         this.nickname = nickname;

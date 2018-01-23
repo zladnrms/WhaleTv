@@ -108,7 +108,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private boolean bookmark = false;
 
     /* VideoView */
-    private boolean expand = true;
+    private boolean expand = false;
     private int width, height;
 
     /* Keyboard Control For Chatting */
@@ -140,6 +140,8 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private AsyncTask<Void, Void, Void> viewTimerTask;
     private volatile boolean viewTimerRunning = false;
 
+    /* Chat Layout Toggle */
+    private boolean toggleFlag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,11 +165,46 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         presenter.saveUserRoomId(ViewerActivity.this, roomId);
 
+        /* set Chat Layout */
+        initChatLayout();
+
+        /* Set ExoPlayer and Listener */
+        initExoPlayer();
+
+        /* ExoPlayer Control By Custom View */
+        initCustomExoPlayerUI();
+
+        /* Getting Bookmark Status*/
+        presenter.getBookmark(ViewerActivity.this);
+
+        /* Register Event */
+        RxBus.get().register(this);
+
+        /* Set Network Status Receiver*/
+        setReceiver();
+    }
+
+    private void initChatLayout() {
         /* Chatting Listview Adapter */
         rv_adapter = new ChatListAdapter(ViewerActivity.this);
         LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(ViewerActivity.this, LinearLayoutManager.VERTICAL, false);
         binding.rvChatList.setLayoutManager(verticalLayoutmanager);
         binding.rvChatList.setAdapter(rv_adapter);
+
+        /* Init Chat Layout Height By Device */
+        changeChatLayoutHeight(3);
+
+        binding.ivChatToggle.setOnClickListener(v -> {
+            if(toggleFlag) {
+                toggleFlag = false;
+                binding.ivChatToggle.setImageResource(R.drawable.ic_chevron_up_white);
+                changeChatLayoutHeight(5);
+            } else {
+                toggleFlag = true;
+                binding.ivChatToggle.setImageResource(R.drawable.ic_chevron_down_white);
+                changeChatLayoutHeight(3);
+            }
+        });
 
         /* Chatting Button */
         binding.btnChatSend.setOnClickListener(v -> {
@@ -198,9 +235,9 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                 return true;
             }
         });
+    }
 
-        /* ExoPlayer Setting */
-
+    private void initExoPlayer() {
         /* 1. Create a default TrackSelector */
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -221,29 +258,27 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         /*Bind the player to the view*/
         simpleExoPlayerView.setPlayer(player);
         simpleExoPlayerView.setKeepScreenOn(true);
+        //VIDEO FROM SD CARD: ( 2 steps. set up file and streamingUrl, then change videoSource to get the file)
+        //        String urimp4 = "streamingUrl/FileName.mp4"; //upload file to device and add streamingUrl/name.mp4
+        //        Uri mp4VideoUri = Uri.parse(Environment.getExternalStorageDirectory().getAbsolutePath()+urimp4);
 
-//VIDEO FROM SD CARD: ( 2 steps. set up file and streamingUrl, then change videoSource to get the file)
-
-//        String urimp4 = "streamingUrl/FileName.mp4"; //upload file to device and add streamingUrl/name.mp4
-//        Uri mp4VideoUri = Uri.parse(Environment.getExternalStorageDirectory().getAbsolutePath()+urimp4);
-
-
-//building cam live stream link:
-
+        // building cam live stream link:
         streamingUrl = hlsUrl + streamerId + ".m3u8";
         Uri mp4VideoUri = Uri.parse(streamingUrl);
 
-// Measures bandwidth during playback. Can be null if not required.
+        // Measures bandwidth during playback. Can be null if not required.
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
-//Produces DataSource instances through which media data is loaded.
+
+        //Produces DataSource instances through which media data is loaded.
         DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeterA);
-//Produces Extractor instances for parsing the media data.
+
+        //Produces Extractor instances for parsing the media data.
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-//FOR SD CARD SOURCE:
-//        MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
-//
-// FOR LIVESTREAM LINK:
+        //FOR SD CARD SOURCE:
+        //MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
+        //
+        // FOR LIVESTREAM LINK:
         MediaSource videoSource = new HlsMediaSource(mp4VideoUri, dataSourceFactory, 1, null, null);
         final LoopingMediaSource loopingSource = new LoopingMediaSource(videoSource);
 
@@ -307,7 +342,9 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         });
 
         player.setPlayWhenReady(true);
+    }
 
+    private void initCustomExoPlayerUI() {
         /* ExoPlayer Control By Custom View */
         controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
 
@@ -334,15 +371,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
         tvSubject = controlView.findViewById(R.id.tv_subject); /* Viewer Count */
         tvSubject.setText(String.valueOf(subject));
-
-        /* Getting Bookmark Status*/
-        presenter.getBookmark(ViewerActivity.this);
-
-        /* Register Event */
-        RxBus.get().register(this);
-
-        /* Set Network Status Receiver*/
-        setReceiver();
     }
 
     private void setReceiver() {
@@ -422,16 +450,23 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         super.onConfigurationChanged(newConfig);
 
         /* Custom ExoPlayer : ExoPlayer는 화면 전체를 차지하게 하여 비디오 어디든 클릭 시 control view를 나타날 수 있게 처리함 */
-            /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
-            /* like AfreecaTv */
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
+        /* like AfreecaTv */
+        changeAspectRatioFrameLayout(newConfig.orientation);
+
+        /* orientation 변화로 인한 height 변경에 따른 채팅창 높이 변경 */
+        changeChatLayoutHeight(3);
+    }
+
+    private void changeAspectRatioFrameLayout(int orientation) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             aspectRatioFrameLayout.setLayoutParams(params);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
@@ -439,16 +474,13 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
             params.height = presenter.getDeviceHeight(ViewerActivity.this) / 3;
             aspectRatioFrameLayout.setLayoutParams(params);
         }
-
-        /* orientation 변화로 인한 height 변경에 따른 채팅창 높이 변경 */
-        changeChatLayoutHeight();
     }
 
-    private void changeChatLayoutHeight() {
+    private void changeChatLayoutHeight(int divide) {
         /* Set Height of Chat Layout*/
         ViewGroup.LayoutParams params = binding.layoutChat.getLayoutParams();
         // Changes the height and width to the specified *pixels*
-        params.height = presenter.getDeviceHeight(ViewerActivity.this) / 2;
+        params.height = presenter.getDeviceHeight(ViewerActivity.this) / divide;
         binding.layoutChat.setLayoutParams(params);
     }
 
@@ -471,14 +503,10 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         try {
             Logger.d(object);
             if (object instanceof ChatInfo) {
-                Logger.d("Subscribe : ViewerActivity : ChatInfo");
-                //Logger.d(((ChattingEvent) object).getChatInfo());
-                Logger.d(((ChatInfo) object).getChat());
                 presenter.addChat((ChatInfo) object);
                 presenter.refresh();
                 binding.rvChatList.smoothScrollToPosition(rv_adapter.getItemCount());
             } else if (object instanceof BookmarkEvent) { /* 자신의 Bookmark 목록을 가져와 지금의 Streamer 닉네임과 하나하나 비교 */
-                Logger.d("Subscribe : ViewerActivity : BookmarkEvent");
                 if (((BookmarkEvent) object).getNickname().equals(streamerNickname)) {
                     presenter.bookmarkrefresh();
                 }
@@ -527,7 +555,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
             connectFlag = true;
         }
-
 
         viewTimerRunning = true;
         viewTimerTask = new viewTimerTask();

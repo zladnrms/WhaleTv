@@ -75,6 +75,14 @@
                 android:layout_marginBottom="5dp">
 
                 <Button
+                    android:id="@+id/btn_like"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/ic_thumb_white" />
+
+                <Button
                     android:id="@+id/btn_bookmark"
                     android:layout_width="33dp"
                     android:layout_height="33dp"

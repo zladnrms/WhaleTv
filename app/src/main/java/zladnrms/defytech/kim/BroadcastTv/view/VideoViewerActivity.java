@@ -60,7 +60,6 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     /* presenter */
     private VideoViewerPresenter presenter;
 
-    //private String videoUrl = "http://115.71.238.61/record/";
     private int videoId;
     private String nickname;
     private String videoUrl = "http://52.79.108.8/record/";
@@ -70,7 +69,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
     private String path;
 
     /* VideoView */
-    private boolean expand = true;
+    private boolean expand = false;
 
     /* ExoPlayer and ExoPlayer Custom */
     private static final String TAG = "MainActivity";
@@ -93,7 +92,6 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         presenter.attachView(this);
 
         Intent intent = getIntent();
-
         videoId = intent.getIntExtra("videoId", 0);
         nickname = intent.getStringExtra("nickname");
         subject = intent.getStringExtra("subject");
@@ -104,6 +102,17 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         // set your path here
         path = videoUrl + filename + ".mp4";
 
+        /* Set ExoPlayer and Listener */
+        initExoPlayer();
+
+        /* ExoPlayer Control By Custom View */
+        initCustomExoPlayerUI();
+
+        /* Plus One Viewer Count this video (to server) */
+        presenter.upVideoCount(videoId);
+    }
+
+    private void initExoPlayer() {
         // 1. Create a default TrackSelector
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
@@ -195,8 +204,9 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
         // Prepare the player with the source.
         player.prepare(videoSource);
         player.setPlayWhenReady(true);
+    }
 
-        /* ExoPlayer Control By Custom View */
+    private void initCustomExoPlayerUI() {
         controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
 
         btnOrientation = controlView.findViewById(R.id.btn_orientation); /* Orientation Change Button */
@@ -214,27 +224,27 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
 
         tvSubject = controlView.findViewById(R.id.tv_subject); /* Viewer Count */
         tvSubject.setText(String.valueOf(subject));
-
-        /* Plus One Viewer Count this video (to server) */
-        presenter.upVideoCount(videoId);
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         /* Custom ExoPlayer : ExoPlayer는 화면 전체를 차지하게 하여 비디오 어디든 클릭 시 control view를 나타날 수 있게 처리함 */
-            /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
-            /* like AfreecaTv */
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        /* 단, Portrait 시 height 값은 화면의 3분의 1 정도로만 차지하도록 하여 보는데 부담이 없도록 처리함 */
+        /* like AfreecaTv */
+        changeAspectRatioFrameLayout(newConfig.orientation);
+    }
+
+    private void changeAspectRatioFrameLayout(int orientation) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
             ViewGroup.LayoutParams params = aspectRatioFrameLayout.getLayoutParams();
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
             aspectRatioFrameLayout.setLayoutParams(params);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             aspectRatioFrameLayout = simpleExoPlayerView.findViewById(R.id.exo_content_frame);
@@ -243,6 +253,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
             aspectRatioFrameLayout.setLayoutParams(params);
         }
     }
+
 
     @Override
     public void changeMode() {

@@ -55,11 +55,6 @@
             android:windowSoftInputMode="adjustResize|adjustPan"
             />
         <activity
-            android:name=".view.BroadcastJavaCvActivity"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            />
-        <activity
             android:name=".view.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme"

@@ -45,6 +45,8 @@ public interface ViewerContract {
 
          int getUserRoomId(Context context);
 
+         String getUserId();
+
          String getUserNickname(Context context);
 
          void changeMode();

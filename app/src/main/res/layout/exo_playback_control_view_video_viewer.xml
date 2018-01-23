@@ -8,82 +8,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="#CC000000"
-        android:layoutDirection="ltr"
+        android:background="@android:color/transparent"
         android:orientation="vertical">
 
-        <!-- title bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_marginTop="6dp"
-            android:gravity="left"
-            android:orientation="horizontal">
+            android:background="#CC000000"
+            android:layoutDirection="ltr"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="left|center"
-                android:layout_marginRight="6dp"
-                android:background="@drawable/ic_backarrow" />
-
-            <TextView
-                android:id="@+id/tv_subject"
-                android:layout_width="wrap_content"
+            <!-- title bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="즈바드님의 영상"
-                android:textColor="#FFFFFF"
-                android:textSize="17sp" />
+                android:layout_gravity="top"
+                android:layout_marginTop="6dp"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="6dp"
+                    android:background="@drawable/ic_backarrow" />
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="즈바드님의 영상"
+                    android:textColor="#FFFFFF"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+            <!-- viewer count -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center|left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_eye_transparent" />
+
+                <TextView
+                    android:id="@+id/tv_viewer_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <!-- viewer count -->
+        <!-- player control bar -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center|left"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="right"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="25dp"
+            <Button
+                android:id="@+id/btn_like"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/ic_eye_transparent" />
+                android:background="@drawable/ic_thumb_white" />
 
-            <TextView
-                android:id="@+id/tv_viewer_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLength="20"
-                android:text="1"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <!-- player control bar -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="5dp">
-
-                <Button
-                    android:id="@+id/btn_orientation"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_collapse" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/btn_orientation"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_collapse" />
 
         </LinearLayout>
 
@@ -97,24 +109,23 @@
         android:layoutDirection="ltr"
         android:orientation="vertical">
 
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:id="@id/exo_progress"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:buffered_color="#F6F6F6"
+            app:played_color="#368AFF"
+            app:scrubber_color="#368AFF"
+            app:unplayed_color="#F6F6F6" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="4dp">
-
-            <ImageButton
-                android:id="@id/exo_prev"
-                style="@style/ExoMediaButton.Previous" />
-
-            <ImageButton
-                android:id="@id/exo_rew"
-                style="@style/ExoMediaButton.Rewind" />
-
-            <ImageButton
-                android:id="@id/exo_repeat_toggle"
-                style="@style/ExoMediaButton" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@id/exo_play"
@@ -124,53 +135,32 @@
                 android:id="@id/exo_pause"
                 style="@style/ExoMediaButton.Pause" />
 
-            <ImageButton
-                android:id="@id/exo_ffwd"
-                style="@style/ExoMediaButton.FastForward" />
-
-            <ImageButton
-                android:id="@id/exo_next"
-                style="@style/ExoMediaButton.Next" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
             <TextView
                 android:id="@id/exo_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
                 android:textColor="#F6F6F6"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <com.google.android.exoplayer2.ui.DefaultTimeBar
-                android:id="@id/exo_progress"
-                android:layout_width="0dp"
-                android:layout_height="26dp"
-                android:layout_weight="1"
-                app:buffered_color="#FFBEBEBE"
-                app:played_color="#368AFF"
-                app:scrubber_color="#FFBEBEBE"
-                app:unplayed_color="#FFBEBEBE" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textColor="#F6F6F6"
+                android:textSize="12sp"
+                android:text="/"/>
 
             <TextView
                 android:id="@id/exo_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
                 android:textColor="#F6F6F6"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

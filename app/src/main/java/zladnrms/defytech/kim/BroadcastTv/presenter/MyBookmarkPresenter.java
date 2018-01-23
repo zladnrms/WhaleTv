@@ -1,6 +1,7 @@
 package zladnrms.defytech.kim.BroadcastTv.presenter;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
@@ -16,6 +17,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkListRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -60,28 +62,21 @@ public class MyBookmarkPresenter implements MyBookmarkContract.Presenter {
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
-                .getBookmarkList(nickname)
+                .getBookmark(nickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookmarkListRepo>() {
+                .subscribe(new Observer<GetBookmarkRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull BookmarkListRepo repo) {
+                    public void onNext(@NonNull GetBookmarkRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
-                            if (repo.getResponse().get(i).getResult().equals("yes_data")) {
-                                ArrayList<String> bookmarkList = repo.getResponse().get(i).getBookmarklist();
-                                Logger.t("BookmarkListRepo-onNext").d(bookmarkList);
-
-                                for(int j = 0; j < bookmarkList.size(); j++ ) {
-                                    view.getBookmarkData(bookmarkList.get(j));
-                                }
-                            } else {
-                                Logger.t("BookmarkListRepo-onNext").d(repo.getResponse().get(i).getBookmarklist());
-
+                            if (repo.getResponse() != null) {
+                                String streamerNickname = repo.getResponse().get(i).getStreamerNickname();
+                                view.getBookmarkData(streamerNickname);
                             }
                         }
                     }

@@ -111,6 +111,9 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     /* onStop : */
     private boolean castStop = false;
 
+    /* Chat Layout Toggle */
+    private boolean toggleFlag = true;
+
     public BroadcastActivity() {
     }
 
@@ -132,11 +135,54 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         binding.etSubject.setText(presenter.getUserNickname(BroadcastActivity.this) + "님의 방송");
         rtmpUrl = baseUrl + presenter.getUserId(); /* 송출 할 주소 */
 
+        initRtmpPublisher();
+
+        initChatLayout();
+
+        initBroadcastSettingLayout();
+
+        /* RxBus 설정 */
+        RxBus.get().register(this);
+
+         /* Set Network Status Receiver*/
+        setReceiver();
+    }
+
+    private void initRtmpPublisher() {
+        /* Rtmp Publisher Initialize*/
+        mPublisher = new SrsPublisher((SrsCameraView) findViewById(R.id.glsurfaceview_camera));
+        mPublisher.setEncodeHandler(new SrsEncodeHandler(this));
+        mPublisher.setRtmpHandler(new RtmpHandler(this));
+        mPublisher.setRecordHandler(new SrsRecordHandler(this));
+        mPublisher.setPreviewResolution(640, 360);
+        mPublisher.setOutputResolution(360, 640);
+        mPublisher.setVideoHDMode();
+        mPublisher.startCamera();
+
+        mPublisher.switchToSoftEncoder();
+    }
+
+    private void initChatLayout() {
         /* Chatting List */
         rv_adapter = new ChatListAdapter(BroadcastActivity.this);
         LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(BroadcastActivity.this, LinearLayoutManager.VERTICAL, false);
         binding.rvChatList.setLayoutManager(verticalLayoutmanager);
         binding.rvChatList.setAdapter(rv_adapter);
+
+        /* Init Chat Layout Height By Device */
+        changeChatLayoutHeight(2);
+
+        binding.ivChatToggle.setOnClickListener(v -> {
+            if(toggleFlag) {
+                toggleFlag = false;
+                binding.ivChatToggle.setImageResource(R.drawable.ic_chevron_up_white);
+                changeChatLayoutHeight(5);
+            } else {
+                toggleFlag = true;
+                binding.ivChatToggle.setImageResource(R.drawable.ic_chevron_down_white);
+                changeChatLayoutHeight(3);
+            }
+        });
 
         /* 채팅 내용 전송 */
         binding.btnChatSend.setOnClickListener(v -> {
@@ -153,29 +199,19 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
         /* 엔터 키 -> 보내기 키로 변경 */
         binding.etChat.setOnEditorActionListener((v, actionId, event) ->  {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_SEND:
-                        binding.btnChatSend.performClick();
-                        break;
-                    default:
-                        // 기본 엔터키 동작
-                        return false;
-                }
-                return true;
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_SEND:
+                    binding.btnChatSend.performClick();
+                    break;
+                default:
+                    // 기본 엔터키 동작
+                    return false;
+            }
+            return true;
         });
+    }
 
-        /* Rtmp Publisher Initialize*/
-        mPublisher = new SrsPublisher((SrsCameraView) findViewById(R.id.glsurfaceview_camera));
-        mPublisher.setEncodeHandler(new SrsEncodeHandler(this));
-        mPublisher.setRtmpHandler(new RtmpHandler(this));
-        mPublisher.setRecordHandler(new SrsRecordHandler(this));
-        mPublisher.setPreviewResolution(640, 360);
-        mPublisher.setOutputResolution(360, 640);
-        mPublisher.setVideoHDMode();
-        mPublisher.startCamera();
-
-        mPublisher.switchToSoftEncoder();
-
+    private void initBroadcastSettingLayout() {
         /* 방송 버튼 */
         binding.cast.setOnClickListener(v -> {
 
@@ -186,6 +222,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
             if (!recording) {
                 binding.layoutChat.setVisibility(View.VISIBLE);
+
                 /* 서버에 방 생성 및 방송 시작 */
                 presenter.startBroadcast(subject, id, nickname);
 
@@ -280,48 +317,16 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
         /* 엔터 키 -> 보내기 키로 변경 */
         binding.etSubject.setOnEditorActionListener((v, actionId, event) ->  {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_DONE:
-                        binding.btnEditSubjectSubmit.performClick();
-                        break;
-                    default:
-                        // 기본 엔터키 동작
-                        return false;
-                }
-                return true;
-        });
-
-        /*
-        binding.record.setOnClickListener(v -> {
-            if (binding.record.getText().toString().contentEquals("record")) {
-                if (mPublisher.startRecord(recPath)) {
-                    binding.record.setText("pause");
-                }
-            } else if (binding.record.getText().toString().contentEquals("pause")) {
-                mPublisher.pauseRecord();
-                binding.record.setText("resume");
-            } else if (binding.record.getText().toString().contentEquals("resume")) {
-                mPublisher.resumeRecord();
-                binding.record.setText("pause");
+            switch (actionId) {
+                case EditorInfo.IME_ACTION_DONE:
+                    binding.btnEditSubjectSubmit.performClick();
+                    break;
+                default:
+                    // 기본 엔터키 동작
+                    return false;
             }
+            return true;
         });
-
-        binding.swEnc.setOnClickListener(v -> {
-            if (binding.swEnc.getText().toString().contentEquals("soft encoder")) {
-                mPublisher.switchToSoftEncoder();
-                binding.swEnc.setText("hard encoder");
-            } else if (binding.swEnc.getText().toString().contentEquals("hard encoder")) {
-                mPublisher.switchToHardEncoder();
-                binding.swEnc.setText("soft encoder");
-            }
-        });
-        */
-
-        /* RxBus 설정 */
-        RxBus.get().register(this);
-
-         /* Set Network Status Receiver*/
-        setReceiver();
     }
 
     private void setReceiver() {
@@ -425,17 +430,25 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         }
     }
 
-    /* Life Cycle */
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+    private void enterChatServer() {
         if (!connectFlag) {
             EntryPacket entryPacket = new EntryPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this), 0);
             nc.send(0, entryPacket);
 
             connectFlag = true;
         }
+    }
+
+    private void exitChatServer() {
+        EntryPacket entryPacket = new EntryPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this), 1);
+        nc.send(1, entryPacket);
+    }
+
+    /* Life Cycle */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -464,11 +477,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     protected void onPause() {
         super.onPause();
 
-
-        //EndingPacket endingPacket = new EndingPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this), 101);
-        //nc.send(101, endingPacket);
-        //presenter.delBroadcastRoom(roomId, presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this));
-
         mPublisher.pauseRecord();
     }
 
@@ -481,12 +489,13 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             nc.send(101, endingPacket);
 
             // 만약 방송중이었으면
-
-            EntryPacket entryPacket = new EntryPacket(presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserNickname(BroadcastActivity.this), 1);
-            nc.send(1, entryPacket);
+            exitChatServer();
         }
 
         presenter.delBroadcastRoom(BroadcastActivity.this, recording, presenter.getUserRoomId(BroadcastActivity.this), presenter.getUserId(), presenter.getUserNickname(BroadcastActivity.this), castTime);
+
+        /* 대기실로 나가므로 roomId -1 */
+        presenter.saveUserRoomId(BroadcastActivity.this, -1);
 
         recording = false;
         mPublisher.stopPublish();
@@ -512,8 +521,10 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         recording = true;
 
         /* 방송 상태 변경 */
-        presenter.updateBroadcastStatus(presenter.getUserRoomId(BroadcastActivity.this));
+        //presenter.updateBroadcastStatus(presenter.getUserRoomId(BroadcastActivity.this));
 
+        /* 채팅 서버 입장 */
+        enterChatServer();
     }
 
     public void stopRecording() {
@@ -629,6 +640,17 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             mPublisher.startEncode();
         }
         mPublisher.startCamera();
+
+        /* orientation 변화로 인한 height 변경에 따른 채팅창 높이 변경 */
+        changeChatLayoutHeight(3);
+    }
+
+    private void changeChatLayoutHeight(int divide) {
+        /* Set Height of Chat Layout*/
+        ViewGroup.LayoutParams params = binding.layoutChat.getLayoutParams();
+        // Changes the height and width to the specified *pixels*
+        params.height = presenter.getDeviceHeight(BroadcastActivity.this) / divide;
+        binding.layoutChat.setLayoutParams(params);
     }
 
     private void handleException(Exception e) {

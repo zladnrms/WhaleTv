@@ -23,6 +23,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.ServerDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.ChatInfo;
+import zladnrms.defytech.kim.BroadcastTv.model.domain.LoginData;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
@@ -85,6 +86,12 @@ public class ViewerPresenter implements ViewerContract.Presenter {
     @Override
     public int getUserRoomId(Context context) {
         return localRepo.getUserRoomId(context);
+    }
+
+    @Override
+    public String getUserId() {
+        LoginData data = this.localRepo.loadUserLoginInfo();
+        return data.getId();
     }
 
     @Override
@@ -162,18 +169,17 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 
-                            if (repo.getResponse().get(i).getError() == null) {
-
-                                if (repo.getResponse().get(i).getResult() != null) {
-                                    Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
-                                    if (repo.getResponse().get(i).getResult().equals("success")) {
-                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기하였습니다", Toast.LENGTH_SHORT).show();
-                                        view.bookmarkrefresh();
-                                    }
+                            if (repo.getResponse().get(i).getResult() != null) {
+                                Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
+                                if (repo.getResponse().get(i).getResult().equals("success")) {
+                                    Toast.makeText(context, streamerNickname + "님을 즐겨찾기하였습니다", Toast.LENGTH_SHORT).show();
+                                    view.bookmarkrefresh();
+                                } else {
+                                    Toast.makeText(context, "회원 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
                         }
+
                     }
 
                     @Override
@@ -208,19 +214,14 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 
-                            if (repo.getResponse().get(i).getError() == null) {
-
-                                if (repo.getResponse().get(i).getResult() != null) {
-                                    Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
-                                    if (repo.getResponse().get(i).getResult().equals("success")) {
-                                        Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT).show();
-                                        view.bookmarkrefresh();
-                                    }
+                            if (repo.getResponse().get(i).getResult() != null) {
+                                Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
+                                if (repo.getResponse().get(i).getResult().equals("success")) {
+                                    Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT).show();
+                                    view.bookmarkrefresh();
+                                } else {
+                                    Toast.makeText(context, "회원 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
-
-                            } else {
-                                // 에러 났음
-                                Logger.t("bookmarktest").d("에러남");
                             }
                         }
                     }
@@ -255,18 +256,9 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                     @Override
                     public void onNext(@NonNull GetBookmarkRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
-                            if (repo.getResponse().get(i).getResult() != null) {
-                                if (repo.getResponse().get(i).getResult().equals("success")) {
-                                    ArrayList<String> arrList = repo.getResponse().get(i).getBookmark();
-
-                                    for (int j = 0; j < arrList.size(); j++) {
-                                        String bookmark_nickname = arrList.get(j);
-                                        /* Bookmark 목록에서 하나 씩 뽑아내서 Activity에 보냄 */
-                                        BookmarkRefreshSend(bookmark_nickname);
-                                    }
-                                } else {
-                                    Logger.d(repo.getResponse().get(i).getResult() + " Result Failure");
-                                }
+                            if (repo.getResponse() != null) {
+                                String streamerNickname = repo.getResponse().get(i).getStreamerNickname();
+                                BookmarkRefreshSend(streamerNickname);
                             }
                         }
                     }

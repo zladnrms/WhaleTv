@@ -117,15 +117,18 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
         switch (requestCode) {
             case 0: // App에 유저 입장
                 EntryPacket entryPacket_0 = (EntryPacket) headerPacket;
-                String nickname_0 = entryPacket_0.getNickname();
                 int roomId_0 = entryPacket_0.getRoomId();
+                String nickname_0 = entryPacket_0.getNickname();
 
+                /* 채팅 서버에 유저 정보 세팅 */
                 int indexOf_0 = serverUserInfoArr.indexOf(serverUserInfo);
                 serverUserInfo.setRoomId(roomId_0);
+                serverUserInfo.setNickname(nickname_0);
 
-                serverUserInfoArr.get(indexOf_0).setRoomId(roomId_0);
+                serverUserInfoArr.set(indexOf_0, serverUserInfo);
+                //serverUserInfoArr.get(indexOf_0).setRoomId(roomId_0);
 
-                System.out.println("『" + roomId_0 + "』" + nickname_0 + "유저 입장");
+                System.out.println("『" + roomId_0 + "』" + nickname_0 + " 유저 입장");
 
                 for (Channel channel : channels) {
                     if (channel != incoming){ // 다른 사람
@@ -135,20 +138,21 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
                     }
                 }
 
-                //toServer(roomId_0, nickname_0, 0);
+                toServer(roomId_0, nickname_0, 0);
                 break;
 
             case 1: // App에서 유저 퇴장
                 EntryPacket entryPacket_1 = (EntryPacket) headerPacket;
-                String nickname_1 = entryPacket_1.getNickname();
                 int roomId_1 = entryPacket_1.getRoomId();
+                String nickname_1 = entryPacket_1.getNickname();
 
                 int indexOf_1 = serverUserInfoArr.indexOf(serverUserInfo);
                 serverUserInfo.setRoomId(-1);
 
-                serverUserInfoArr.get(indexOf_1).setRoomId(-1);
+                serverUserInfoArr.set(indexOf_1, serverUserInfo);
+                //serverUserInfoArr.get(indexOf_1).setRoomId(-1);
 
-                System.out.println("『" + roomId_1 + "』" + nickname_1 + "유저 퇴장");
+                System.out.println("『" + roomId_1 + "』" + nickname_1 + " 유저 입장");
 
                 for (Channel channel : channels) {
                     if (channel != incoming){ // 다른 사람
@@ -158,7 +162,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
                     }
                 }
 
-                //toServer(roomId_1, nickname_1, 1);
+                toServer(roomId_1, nickname_1, 1);
                 break;
 
             case 2: // CHAT 패킷
@@ -237,8 +241,9 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
                 serverUserInfo.setNickname(nickname_100);
                 serverUserInfo.setRoomId(-1);
 
-                serverUserInfoArr.get(indexOf_100).setNickname(nickname_100);
-                serverUserInfoArr.get(indexOf_100).setRoomId(-1);
+                serverUserInfoArr.set(indexOf_100, serverUserInfo);
+                //serverUserInfoArr.get(indexOf_100).setNickname(nickname_100);
+                //serverUserInfoArr.get(indexOf_100).setRoomId(-1);
 
                 System.out.println("『" + "-1" + "』" + nickname_100 + "유저 입장");
 
@@ -342,10 +347,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<HeaderPacket
                 String result;
                 while ((result = reader.readLine()) != null) {       // 서버에서 라인단위로 보내줄 것이므로 라인단위로 읽는다
                     builder.append(result + "\n");
-                }
-
-                if (builder.toString().trim().equals("success")) {
-
                 }
             }
 

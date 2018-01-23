@@ -39,6 +39,8 @@ public interface BroadcastContract {
 
          void saveUserRoomId(Context context, int roomId);
 
+         int getDeviceHeight(Context context);
+
          void addChat(ChatInfo chatInfo);
 
          void clear();

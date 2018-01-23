@@ -12,19 +12,19 @@ public class GetBookmarkRepo {
 
     public class Obj {
 
-        public String getResult() {
-            return result;
+        public int getBookmarkId() {
+            return bookmarkId;
         }
 
-        public ArrayList<String> getBookmark() {
-            return bookmark;
+        public String getStreamerNickname() {
+            return streamerNickname;
         }
 
-        @SerializedName("result")
-        String result;
+        @SerializedName("bookmarkId")
+        int bookmarkId;
 
-        @SerializedName("bookmark")
-        ArrayList<String> bookmark;
+        @SerializedName("streamerNickname")
+        String streamerNickname;
 }
 
     public List<Obj> getResponse() {

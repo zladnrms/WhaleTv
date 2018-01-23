@@ -38,11 +38,11 @@ public interface ApiInterface {
     Observable<ResultRepo> joinData(@Field("id") String id, @Field("password") String password, @Field("nickname") String nickname);
 
     @FormUrlEncoded
-    @POST(folderName + "/room/add_room.php")
+    @POST(folderName + "/room/start_cast.php")
     Observable<StartDataRepo> startData( @Field("nickname") String nickname, @Field("id") String id, @Field("subject") String subject);
 
     @FormUrlEncoded
-    @POST(folderName + "/room/del_room.php")
+    @POST(folderName + "/room/end_cast.php")
     Observable<EndDataRepo> endData(@Field("roomId") int roomId, @Field("id") String id, @Field("nickname") String nickname, @Field("castTime") int castTime);
 
     @FormUrlEncoded
@@ -52,10 +52,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST(folderName + "/room/change_subject.php")
     Observable<ResultRepo> changeSubject(@Field("roomId") int roomId, @Field("subject") String subject);
-
-    @FormUrlEncoded
-    @POST(folderName + "/content/get_bookmark_list.php")
-    Observable<BookmarkListRepo> getBookmarkList(@Field("nickname") String nickname);
 
     @POST(folderName + "/room/get_streaming_room_list.php")
     Observable<RoomDataRepo> roomData();

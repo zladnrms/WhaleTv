@@ -88,11 +88,11 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST(folderName + "/content/add_bookmark.php")
-    Observable<BookmarkRepo> addBookmark(@Field("nickname") String nickname, @Field("streamer") String streamer);
+    Observable<ResultRepo> addBookmark(@Field("nickname") String nickname, @Field("streamerNickname") String streamerNickname);
 
     @FormUrlEncoded
     @POST(folderName + "/content/del_bookmark.php")
-    Observable<BookmarkRepo> delBookmark(@Field("nickname") String nickname, @Field("streamer") String streamer);
+    Observable<ResultRepo> delBookmark(@Field("nickname") String nickname, @Field("streamerNickname") String streamerNickname);
 
     @FormUrlEncoded
     @POST(folderName + "/content/get_bookmark.php")

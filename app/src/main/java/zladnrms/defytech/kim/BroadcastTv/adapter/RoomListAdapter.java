@@ -67,7 +67,6 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
                         intent.putExtra("subject", roomInfo.getSubject());
                         intent.putExtra("streamerId", roomInfo.getStreamerId());
                         intent.putExtra("streamerNickname", roomInfo.getStreamerNickname());
-                        intent.putExtra("viewer", roomInfo.getViewer());
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(intent);
                     }

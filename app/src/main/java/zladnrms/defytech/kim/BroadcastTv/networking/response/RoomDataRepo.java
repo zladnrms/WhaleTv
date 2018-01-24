@@ -19,10 +19,6 @@ public class RoomDataRepo {
             return subject;
         }
 
-        public String getViewer() {
-            return viewer;
-        }
-
         public String getStreamerId() {
             return streamerId;
         }
@@ -46,8 +42,6 @@ public class RoomDataRepo {
         String streamerId;
         @SerializedName("streamerNickname")
         String streamerNickname;
-        @SerializedName("viewer")
-        String viewer;
         @SerializedName("subject")
         String subject;
         @SerializedName("status")

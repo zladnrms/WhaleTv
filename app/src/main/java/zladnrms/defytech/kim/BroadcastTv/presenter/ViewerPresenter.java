@@ -159,14 +159,14 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                 .addBookmark(nickname, streamerNickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookmarkRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull BookmarkRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 
@@ -176,7 +176,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                                     Toast.makeText(context, streamerNickname + "님을 즐겨찾기하였습니다", Toast.LENGTH_SHORT).show();
                                     view.bookmarkrefresh();
                                 } else {
-                                    Toast.makeText(context, "회원 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "이미 즐겨찾기 되어 있습니다", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -204,14 +204,14 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                 .delBookmark(nickname, streamerNickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookmarkRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull BookmarkRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
 
                         for (int i = 0; i < repo.getResponse().size(); i++) {
 
@@ -220,8 +220,6 @@ public class ViewerPresenter implements ViewerContract.Presenter {
                                 if (repo.getResponse().get(i).getResult().equals("success")) {
                                     Toast.makeText(context, streamerNickname + "님을 즐겨찾기 제거하였습니다", Toast.LENGTH_SHORT).show();
                                     view.bookmarkrefresh();
-                                } else {
-                                    Toast.makeText(context, "회원 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -256,11 +254,13 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
                     @Override
                     public void onNext(@NonNull GetBookmarkRepo repo) {
+                        if (repo.getResponse() != null) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
-                            if (repo.getResponse() != null) {
                                 String streamerNickname = repo.getResponse().get(i).getStreamerNickname();
                                 BookmarkRefreshSend(streamerNickname);
                             }
+                        } else {
+
                         }
                     }
 

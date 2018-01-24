@@ -17,6 +17,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepository;
 import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
+import zladnrms.defytech.kim.BroadcastTv.networking.response.ResultRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -54,17 +55,15 @@ public class MyBookmarkListAdapterPresenter implements MyBookmarkListAdapterCont
                 .delBookmark(nickname, streamerNickname)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookmarkRepo>() {
+                .subscribe(new Observer<ResultRepo>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(@NonNull BookmarkRepo repo) {
+                    public void onNext(@NonNull ResultRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
-                            if (repo.getResponse().get(i).getError() == null) {
-
                                 if (repo.getResponse().get(i).getResult() != null) {
                                     Logger.t("ViewerPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                     if (repo.getResponse().get(i).getResult().equals("success")) {
@@ -72,11 +71,6 @@ public class MyBookmarkListAdapterPresenter implements MyBookmarkListAdapterCont
                                         view.refresh();
                                     }
                                 }
-
-                            } else {
-                                // 에러 났음
-                                Logger.t("bookmarktest").d("에러남");
-                            }
                         }
                     }
 

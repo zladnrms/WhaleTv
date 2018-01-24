@@ -502,7 +502,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
         }
     }
 
-
     @Subscribe(tags = @Tag("viewer"))
     public void subscribe(Object object) {
         try {
@@ -512,6 +511,8 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
                 presenter.refresh();
                 binding.rvChatList.smoothScrollToPosition(rv_adapter.getItemCount());
             } else if (object instanceof BookmarkEvent) { /* 자신의 Bookmark 목록을 가져와 지금의 Streamer 닉네임과 하나하나 비교 */
+
+                Logger.d("클라: " + streamerNickname + ", 서버받아온거 : " +((BookmarkEvent) object).getNickname().equals(streamerNickname));
                 if (((BookmarkEvent) object).getNickname().equals(streamerNickname)) {
                     presenter.bookmarkrefresh();
                 }

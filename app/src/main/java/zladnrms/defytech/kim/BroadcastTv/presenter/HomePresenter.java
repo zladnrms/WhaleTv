@@ -87,9 +87,9 @@ public class HomePresenter implements HomeContract.Presenter {
                     public void onNext(@NonNull RoomDataRepo repo) {
                         for (int i = 0; i < repo.getResponse().size(); i++) {
                             if (repo.getResponse().get(i).getRoomId() != null) {
-                                Logger.t("HomePresenter-onNext").d(repo.getResponse().get(i).getRoomId() + "," + repo.getResponse().get(i).getStreamerId() + "," + repo.getResponse().get(i).getStreamerNickname() + "," + repo.getResponse().get(i).getViewer() + "," + repo.getResponse().get(i).getSubject() + "," + repo.getResponse().get(i).getStatus());
+                                Logger.t("HomePresenter-onNext").d(repo.getResponse().get(i).getRoomId() + "," + repo.getResponse().get(i).getStreamerId() + "," + repo.getResponse().get(i).getStreamerNickname() + "," + repo.getResponse().get(i).getSubject() + "," + repo.getResponse().get(i).getStatus());
                                 if (Integer.valueOf(repo.getResponse().get(i).getStatus()) != 0) {
-                                    RoomInfo roomInfo = new RoomInfo(Integer.valueOf(repo.getResponse().get(i).getRoomId()), repo.getResponse().get(i).getStreamerId(), repo.getResponse().get(i).getStreamerNickname(), repo.getResponse().get(i).getViewer(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getViewerCount());
+                                    RoomInfo roomInfo = new RoomInfo(Integer.valueOf(repo.getResponse().get(i).getRoomId()), repo.getResponse().get(i).getStreamerId(), repo.getResponse().get(i).getStreamerNickname(), repo.getResponse().get(i).getSubject(), repo.getResponse().get(i).getViewerCount());
                                     view.getRoomData(roomInfo);
                                 }
                             }

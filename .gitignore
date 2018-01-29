@@ -1,10 +1,21 @@
-/app/build.gradle
+# built application files
+*.apk
+*.ap_
+
+# file for the dex VM
+*.dex
+
+# android studio
 *.iml
 .gradle
+
+# Local configuration files
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
 /captures
+
+# NDK
 .externalNativeBuild

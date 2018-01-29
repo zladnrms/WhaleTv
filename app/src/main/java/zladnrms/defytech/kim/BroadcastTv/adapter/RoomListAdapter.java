@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.RoomListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.databinding.CardviewStreamingListBinding;
@@ -26,7 +27,7 @@ import zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo;
 
 public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHolder> implements RoomListDataModel, RoomListAdapterContract.View {
 
-    private static final String thumbnailUrl = "http://52.79.108.8/thumbnail/";
+    private static final String thumbnailUrl =  BuildConfig.SERVER_URL + "/thumbnail/";
 
     private ArrayList<RoomInfo> roomList = new ArrayList<RoomInfo>();
     private Context context;

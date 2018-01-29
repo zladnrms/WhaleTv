@@ -1,5 +1,6 @@
 package zladnrms.defytech.kim.BroadcastTv.networking;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -11,11 +12,11 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "http://52.79.108.8";
-    //private static final String BASE_URL = "http://115.71.238.61";
+    private static final String BASE_URL = BuildConfig.SERVER_URL;
 
     private ApiInterface apiInterface;
 

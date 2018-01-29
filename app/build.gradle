@@ -23,6 +23,13 @@ android {
         }
     }
     buildTypes {
+        def SERVER_URL = "SERVER_URL"
+        def TCP_URL = "TCP_URL"
+
+        debug {
+            buildConfigField "String", SERVER_URL, "\"http://52.79.108.8\""
+            buildConfigField "String", TCP_URL, "\"52.79.108.8\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -50,10 +57,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:multidex:1.0.1'
-
-    /* javaCV (Rtmp Streaming) */
-    compile files('libs/javacv.jar')
-    compile files('libs/javacpp.jar')
 
     /* netty (Chatting) */
     compile files('libs/netty-all-4.1.9.Final.jar')

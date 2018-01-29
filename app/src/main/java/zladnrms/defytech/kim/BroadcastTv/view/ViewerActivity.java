@@ -406,14 +406,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        Logger.t("onNewIntent").d("onNewIntent!");
-
-    }
-
-    @Override
     public void addChat(ChatInfo chatInfo) {
         rv_adapter.add(chatInfo);
     }
@@ -435,7 +427,6 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
 
     @Override
     public String getUserNickname() {
-
         return presenter.getUserNickname(ViewerActivity.this);
     }
 

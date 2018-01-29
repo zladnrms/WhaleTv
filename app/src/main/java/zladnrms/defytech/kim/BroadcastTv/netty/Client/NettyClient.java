@@ -9,6 +9,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChangeSubjectPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.ChatPacket;
 import zladnrms.defytech.kim.BroadcastTv.packet.ConnectPacket;
@@ -19,8 +20,7 @@ import zladnrms.defytech.kim.BroadcastTv.packet.StopPacket;
 
 public class NettyClient extends Thread {
 
-    private String host = "52.79.108.8";
-    //private String host = "115.71.238.61";
+    private String host = BuildConfig.TCP_URL;
     private int port = 6060;
     private boolean submitFlag = false;
     private int type;

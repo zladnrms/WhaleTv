@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.adapter.contract.MyBookmarkListAdapterContract;
 import zladnrms.defytech.kim.BroadcastTv.adapter.model.MyBookmarkListDataModel;
@@ -16,8 +17,6 @@ import zladnrms.defytech.kim.BroadcastTv.adapter.presenter.MyBookmarkListAdapter
 import zladnrms.defytech.kim.BroadcastTv.databinding.RecyclerviewMyBookmarkBinding;
 
 public class MyBookmarkListAdapter extends RecyclerView.Adapter<MyBookmarkListAdapter.ViewHolder> implements MyBookmarkListDataModel, MyBookmarkListAdapterContract.View {
-
-    private static final String thumbnailUrl = "http://52.79.108.8/thumbnail/";
 
     private ArrayList<String> bookmarkList = new ArrayList<String>();
     private Context context;

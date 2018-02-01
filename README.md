@@ -15,5 +15,11 @@
 ### My Recorded Video List
 ![record video list](https://github.com/zladnrms/WhaleTv/blob/master/my_recorded_video_list.png)
 
-### Recorded Video
-![record video](https://github.com/zladnrms/WhaleTv/blob/master/recorded_video.png)
+### Recorded Video (portrait)
+![record video](https://github.com/zladnrms/WhaleTv/blob/master/rcrd_video_prtrt_no_tch.png)
+
+### Recorded Video (landscape)
+![record video](https://github.com/zladnrms/WhaleTv/blob/master/rcrd_video_lnd_no_tch.png)
+
+### Recorded Video (landscape)
+![record video](https://github.com/zladnrms/WhaleTv/blob/master/rcrd_video_lnd_tch.png)

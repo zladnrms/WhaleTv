@@ -10,12 +10,9 @@
 ![broadcast list](https://github.com/zladnrms/WhaleTv/blob/master/6.png)
 
 ### Broadcast
-![broadcast](https://github.com/zladnrms/WhaleTv/blob/master/2.png)
-
-### My Broadcast List
 ![main](https://github.com/zladnrms/WhaleTv/blob/master/8.png)
 
-### Recorded Video List
+### My Recorded Video List
 ![record video list](https://github.com/zladnrms/WhaleTv/blob/master/5.png)
 
 ### Recorded Video

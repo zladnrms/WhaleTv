@@ -72,7 +72,7 @@ public class VideoChannelPresenter implements VideoChannelContract.Presenter{
 
     @Override
     public void getVideoList() {
-        /* Roominfo Array For return */
+        /* 녹화 비디오 목록 가져오기 */
         ArrayList<VideoInfo> videoArr = new ArrayList<VideoInfo>();
 
         retrofitClient.getApi()

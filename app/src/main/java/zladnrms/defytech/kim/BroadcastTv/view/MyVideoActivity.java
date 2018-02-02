@@ -45,6 +45,7 @@ public class MyVideoActivity extends AppCompatActivity implements MyVideoContrac
         binding.rvMyVideoList.setLayoutManager(verticalLayoutmanager);
         binding.rvMyVideoList.setAdapter(rv_my_video_adapter);
 
+        /* refresh list */
         binding.swipeRefreshMyVideoLayout.setOnRefreshListener(() -> {
             presenter.clear();
             presenter.getVideoList(MyVideoActivity.this);

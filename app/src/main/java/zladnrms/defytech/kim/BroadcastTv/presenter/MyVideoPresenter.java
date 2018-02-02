@@ -58,6 +58,7 @@ public class MyVideoPresenter implements MyVideoContract.Presenter {
 
     @Override
     public void getVideoList(Context context) {
+        /* 비디오 목록 가져오기 */
         String nickname = localRepo.getUserNickname(context);
 
         /* Roominfo Array For return */

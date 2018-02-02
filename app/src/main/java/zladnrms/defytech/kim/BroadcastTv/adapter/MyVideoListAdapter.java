@@ -108,7 +108,8 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
             int adjStatus = 1 - status;
             videoInfo.setStatus(adjStatus);
             videoList.set(position, videoInfo);
-            presenter.refresh();
+            notifyItemChanged(position);
+            //presenter.refresh();
         });
 
         holder.binding.btnAdjust.setOnClickListener(v -> {
@@ -125,7 +126,8 @@ public class MyVideoListAdapter extends RecyclerView.Adapter<MyVideoListAdapter.
                     presenter.adjust(context, videoId, adjSubject);
                     videoInfo.setSubject(adjSubject);
                     videoList.set(position, videoInfo);
-                    presenter.refresh();
+                    //presenter.refresh();
+                    notifyItemChanged(position);
                 }
             });
             binding.btnCancel.setOnClickListener(view->{

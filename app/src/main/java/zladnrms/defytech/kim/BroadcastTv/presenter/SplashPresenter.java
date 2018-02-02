@@ -63,6 +63,7 @@ public class SplashPresenter implements SplashContract.Presenter{
 
     @Override
     public void login(Context context, String id, String password) {
+        /* 로그인 */
         retrofitClient.getApi()
                 .autoLoginData(id, password)
                 .subscribeOn(Schedulers.newThread())

@@ -45,6 +45,7 @@ public class JoinActivity extends AppCompatActivity implements JoinContract.View
 
         binding.etId.setFilters(new InputFilter[] {filterAlphaNum});
 
+        /* 가입 시도 */
         binding.btnSumbit.setOnClickListener(v -> {
             String id = binding.etId.getText().toString();
             String password = binding.etPassword.getText().toString();

@@ -74,7 +74,7 @@ public class VideoViewerPresenter implements VideoViewerContract.Presenter{
 
     @Override
     public void upVideoCount(int videoId) {
-
+        /* 조회수 1 증가*/
             retrofitClient.getApi()
                     .upVideoCount(videoId)
                     .subscribeOn(Schedulers.newThread())
@@ -105,6 +105,7 @@ public class VideoViewerPresenter implements VideoViewerContract.Presenter{
 
     @Override
     public void like(Context context, int videoId) {
+        /* 좋아요 클릭 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()

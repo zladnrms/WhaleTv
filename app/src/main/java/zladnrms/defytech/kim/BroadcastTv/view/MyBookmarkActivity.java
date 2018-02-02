@@ -42,6 +42,7 @@ public class MyBookmarkActivity extends AppCompatActivity implements MyBookmarkC
         binding.rvBookmarkList.setLayoutManager(verticalLayoutmanager);
         binding.rvBookmarkList.setAdapter(rv_bookmark_adapter);
 
+        /* refresh list  */
         binding.swipeRefreshBookmarkLayout.setOnRefreshListener(() -> {
             presenter.clear();
             presenter.getUserBookmarkList(this);

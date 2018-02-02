@@ -88,18 +88,21 @@ public class MainActivity extends AppCompatActivity
         tv_nickname.setText(presenter.getUserNickname(MainActivity.this));
 
         /* Menu Button in Navigation Header */
+        /* 영상 관리 */
         LinearLayout layout_my_video = (LinearLayout) hView.findViewById(R.id.layout_my_video);
         layout_my_video.setOnClickListener(v-> {
             Intent intent = new Intent(MainActivity.this, MyVideoActivity.class);
             startActivity(intent);
         });
 
+        /* 즐겨찾기 관리 */
         LinearLayout layout_my_bookmark = (LinearLayout) hView.findViewById(R.id.layout_my_bookmark);
         layout_my_bookmark.setOnClickListener(v-> {
             Intent intent = new Intent(MainActivity.this, MyBookmarkActivity.class);
             startActivity(intent);
         });
 
+        /* 로그아웃 */
         LinearLayout layout_logout = (LinearLayout) hView.findViewById(R.id.layout_logout);
         layout_logout.setOnClickListener(v-> {
             presenter.logout();
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity
             finish();
         });
 
+        /* 개인 정보 */
         binding.navFragment.ivUser.setOnClickListener(v ->{
             Intent intent = new Intent(MainActivity.this, AccountActivity.class);
             startActivity(intent);

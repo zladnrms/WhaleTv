@@ -46,6 +46,7 @@ public class JoinPresenter implements JoinContract.Presenter {
 
     @Override
     public void join(Context context, String id, String password, String nickname) {
+        /* 가입하기 */
         retrofitClient.getApi()
                 .joinData(id, password, nickname)
                 .subscribeOn(Schedulers.newThread())
@@ -64,11 +65,11 @@ public class JoinPresenter implements JoinContract.Presenter {
                                 String result = repo.getResponse().get(i).getResult();
 
                                 if (result.equals("success")) {
-                                    JoinResultSend("success");
+                                    JoinResultSend("success"); /* 가입 성공 */
                                 } else if (result.equals("already_id")) {
-                                    JoinResultSend("already_id");
+                                    JoinResultSend("already_id"); /* 아이디 중복 */
                                 } else if (result.equals("already_nickname")) {
-                                    JoinResultSend("already_nickname");
+                                    JoinResultSend("already_nickname"); /* 닉네임 중복 */
                                 }
                             }
                         }

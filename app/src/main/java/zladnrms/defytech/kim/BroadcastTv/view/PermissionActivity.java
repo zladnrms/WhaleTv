@@ -45,6 +45,7 @@ public class PermissionActivity extends AppCompatActivity implements PermissionC
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_check);
 
+        /* layout collapse 처리 */
         binding.layoutCameraCollapse.setOnClickListener(v->{
             if(showCamera) {
                 showCamera = false;

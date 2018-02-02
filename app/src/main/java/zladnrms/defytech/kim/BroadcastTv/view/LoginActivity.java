@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         binding.etId.setFilters(new InputFilter[] {filterAlphaNum});
 
+        /* 로그인 시도 */
         binding.btnLogin.setOnClickListener(v -> {
             String id = binding.etId.getText().toString();
             String password = binding.etPassword.getText().toString();
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             startActivity(intent);
             finish();
 
-            if (IntroActivity.activity != null) {
+            if (IntroActivity.activity != null) { /* 이전 액티비티 finish */
                 IntroActivity activity = IntroActivity.activity;
                 activity.finish();
             }

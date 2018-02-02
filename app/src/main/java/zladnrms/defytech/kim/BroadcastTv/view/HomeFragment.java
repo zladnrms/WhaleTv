@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void getRoomData(RoomInfo roomInfo) {
         rv_onair_adapter.add(roomInfo);
-        presenter.getRoomViewer(roomInfo.getRoomId());
         presenter.refresh();
     }
 

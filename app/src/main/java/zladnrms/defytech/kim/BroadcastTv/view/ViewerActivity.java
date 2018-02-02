@@ -379,6 +379,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     }
 
     private void setReceiver() {
+        /* 인터넷 연결 상태 변화에 따른 처리 */
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         //동적 리시버 구현

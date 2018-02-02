@@ -55,6 +55,7 @@ public class MyBookmarkPresenter implements MyBookmarkContract.Presenter {
 
     @Override
     public void getUserBookmarkList(Context context) {
+        /* 즐겨찾기 목록 가져오기 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()

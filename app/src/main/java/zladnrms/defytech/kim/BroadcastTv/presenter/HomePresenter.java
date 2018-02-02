@@ -15,7 +15,6 @@ import zladnrms.defytech.kim.BroadcastTv.model.LocalDataRepositoryModel;
 import zladnrms.defytech.kim.BroadcastTv.model.domain.RoomInfo;
 import zladnrms.defytech.kim.BroadcastTv.networking.RetrofitClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.RoomDataRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerDataRepo;
 
 /**
  * Created by kim on 2017-06-22.
@@ -70,8 +69,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void getRoomList() {
-        /* Roominfo Array For return */
-        //ArrayList<RoomInfo> roomArr = new ArrayList<RoomInfo>();
+        /* 실시간 방송 목록 가져오기 */
 
         retrofitClient.getApi()
                 .roomData()
@@ -108,40 +106,5 @@ public class HomePresenter implements HomeContract.Presenter {
                         view.refresh();
                     }
                 });
-    }
-
-    @Override
-    public void getRoomViewer(int roomId) {
-
-        retrofitClient.getApi()
-                .viewerData(roomId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ViewerDataRepo>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        System.out.println("섭스크라이브");
-                    }
-
-                    @Override
-                    public void onNext(@NonNull ViewerDataRepo repo) {
-                        if (repo.getResponse().get(0) != null) {
-                            Logger.t("StreamingListPresenter-addRoom-onNext").d(repo.getResponse().get(0).getViewer());
-                        } else {
-                            Logger.d("널");
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
     }
 }

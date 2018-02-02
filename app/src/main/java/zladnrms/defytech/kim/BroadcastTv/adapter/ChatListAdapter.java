@@ -47,11 +47,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         ChatInfo chatInfo = chatList.get(position);
         holder.binding.setChatdata(chatInfo);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
     }
 
     @Override
@@ -71,7 +66,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     @Override
     public void remove(int position) {
-
+        remove(position);
     }
 
     @Override

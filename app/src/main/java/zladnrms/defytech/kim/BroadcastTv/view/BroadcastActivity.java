@@ -44,6 +44,7 @@ import net.ossrs.yasea.SrsRecordHandler;
 import java.io.IOException;
 import java.net.SocketException;
 
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.contract.BroadcastContract;
 import zladnrms.defytech.kim.BroadcastTv.netty.Client.NettyClient;
 import zladnrms.defytech.kim.BroadcastTv.networking.CheckNetworkStatus;
@@ -78,7 +79,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     private boolean recording = false;
     private boolean mute = false;
     private int rotate = 1;
-    private String baseUrl = "rtmp://52.79.108.8:1935/live/";
+    private String baseUrl = BuildConfig.RTMP_URL + "/live/";
     private String rtmpUrl;
     private String recPath = Environment.getExternalStorageDirectory().getPath() + "/test.mp4";
 
@@ -98,7 +99,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     private boolean connectFlag = false;
 
     /* Network Change */
-    private BroadcastReceiver mReceiver;
+    private BroadcastReceiver mReceiver; /* Receiver for network change */
     private boolean networkCheck = false; /* 액티비티 첫 시작 시 바로 receiver 작동하는 것 방지 */
 
     /* Video Record Timer */
@@ -113,9 +114,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
 
     /* Chat Layout Toggle */
     private boolean toggleFlag = true;
-
-    public BroadcastActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +170,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         /* Init Chat Layout Height By Device */
         changeChatLayoutHeight(2);
 
+        /* 채팅창 크기 토글 */
         binding.ivChatToggle.setOnClickListener(v -> {
             if(toggleFlag) {
                 toggleFlag = false;
@@ -220,6 +219,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             String id = presenter.getUserId();
             String nickname = presenter.getUserNickname(BroadcastActivity.this);
 
+            /* 녹화 중이 아니면 */
             if (!recording) {
                 binding.layoutChat.setVisibility(View.VISIBLE);
 
@@ -238,10 +238,12 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             }
         });
 
+        /* 카메라 전후면 전환 */
         binding.btnSwCam.setOnClickListener(v -> {
             mPublisher.switchCameraFace((mPublisher.getCamraId() + 1) % Camera.getNumberOfCameras());
         });
 
+        /* 마이크 음소거 전환 */
         binding.btnSwMic.setOnClickListener(v -> {
             if (!mute) {
                 mute = true;
@@ -256,6 +258,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
             }
         });
 
+        /* 화면 회전 전환(방송 시작 전에만 설정 가능) */
         binding.btnRotate.setOnClickListener(v -> {
             int currentOrientation = this.getResources().getConfiguration().orientation;
             if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -265,23 +268,6 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
                 this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 Logger.t("Broadcast").d(currentOrientation);
             }
-
-            /*
-            mPublisher.pauseRecord();
-            switch (rotate) {
-                case 1:
-                    mPublisher.setScreenOrientation(rotate);
-                    Logger.t("Broadcast").d(rotate);
-                    rotate = 2;
-                    break;
-                case 2:
-                    mPublisher.setScreenOrientation(rotate);
-                    Logger.t("Broadcast").d(rotate);
-                    rotate = 1;
-                    break;
-            }
-            mPublisher.resumeRecord();
-            */
         });
 
         /* 방 제목 설정 */
@@ -330,6 +316,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
     }
 
     private void setReceiver() {
+        /* 인터넷 연결 상태 변화에 따른 처리 */
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         //동적 리시버 구현

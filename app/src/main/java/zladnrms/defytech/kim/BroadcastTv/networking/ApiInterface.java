@@ -4,7 +4,6 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.BookmarkRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.EndDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.FCMTokenRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.GetBookmarkRepo;
@@ -14,7 +13,6 @@ import zladnrms.defytech.kim.BroadcastTv.networking.response.RoomDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.StartDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.VideoDataRepo;
 import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerCountRepo;
-import zladnrms.defytech.kim.BroadcastTv.networking.response.ViewerDataRepo;
 
 public interface ApiInterface {
 
@@ -77,10 +75,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST(folderName + "/content/up_video_count.php")
     Observable<ResultRepo> upVideoCount(@Field("videoId") int videoId);
-
-    @FormUrlEncoded
-    @POST(folderName + "/room/get_viewer_in_room.php")
-    Observable<ViewerDataRepo> viewerData(@Field("roomId") int roomId);
 
     @FormUrlEncoded
     @POST(folderName + "/room/get_viewer_count.php")

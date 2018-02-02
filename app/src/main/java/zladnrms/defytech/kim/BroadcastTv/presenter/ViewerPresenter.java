@@ -115,6 +115,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
     @Override
     public void getViewerCount(Context context, int roomId) {
+        /* 조회수 가져오기 */
         retrofitClient.getApi()
                 .getViewerCount(roomId)
                 .subscribeOn(Schedulers.newThread())
@@ -153,6 +154,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
     @Override
     public void addBookmark(Context context, String streamerNickname) {
+        /* 즐겨찾기 추가 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
@@ -198,6 +200,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
     @Override
     public void delBookmark(Context context, String streamerNickname) {
+        /* 즐겨찾기 삭제 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
@@ -240,6 +243,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
     @Override
     public void getBookmark(Context context) {
+        /* 즐겨찾기 여부 가져오기 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()
@@ -280,6 +284,7 @@ public class ViewerPresenter implements ViewerContract.Presenter {
 
     @Override
     public void like(Context context, String streamerNickname) {
+        /* 좋아요 클릭 */
         String nickname = localRepo.getUserNickname(context);
 
         retrofitClient.getApi()

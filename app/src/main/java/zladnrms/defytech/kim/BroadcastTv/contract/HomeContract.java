@@ -31,7 +31,5 @@ public interface HomeContract {
          String getUserNickname(Context context);
 
          void getRoomList();
-
-         void getRoomViewer(int roomId);
     }
 }

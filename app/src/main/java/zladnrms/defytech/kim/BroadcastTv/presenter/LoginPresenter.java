@@ -67,13 +67,13 @@ public class LoginPresenter implements LoginContract.Presenter {
                                 String nickname = repo.getResponse().get(i).getNickname();
                                 String sha256pw = repo.getResponse().get(i).getSha256pw();
 
-                                if (result.equals("success")) {
+                                if (result.equals("success")) { /* 로그인 성공 */
                                     localRepo.saveUserLoginInfo(context, id, sha256pw, nickname);
                                     localRepo.saveUserNickname(context, nickname);
                                     LoginResultSend("success", nickname);
-                                } else if (result.equals("miss_id")) {
+                                } else if (result.equals("miss_id")) { /* 없는 아이디 */
                                     LoginResultSend("miss_id", null);
-                                } else if (result.equals("miss_password")) {
+                                } else if (result.equals("miss_password")) { /* 비밀번호 틀림 */
                                     LoginResultSend("miss_password", null);
                                 }
                             }

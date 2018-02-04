@@ -25,9 +25,6 @@ public class NettyClient extends Thread {
     private boolean submitFlag = false;
     private int type;
 
-    /*
-     * 0 입장, 1 퇴장, 2 채팅, 3 포지션 선택, 4 게임 준비, 5 게임 준비 취소, 6 게임 시작, 7 포지션 이동, 8 점프
-     */
     private HeaderPacket headerPacket;
     private EntryPacket entryPacket;
     private ChatPacket chatPacket;
@@ -100,11 +97,6 @@ public class NettyClient extends Thread {
         } finally {
             group.shutdownGracefully();
         }
-    }
-
-    public void off() {
-        this.flag = false;
-        Logger.d("OFF됨");
     }
 
     public void send(int type, HeaderPacket headerPacket) {

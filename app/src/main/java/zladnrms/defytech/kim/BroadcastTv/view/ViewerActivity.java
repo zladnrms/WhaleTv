@@ -66,6 +66,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.orhanobut.logger.Logger;
 
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.contract.ViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.BroadcastStatusChangeEvent;
 import zladnrms.defytech.kim.BroadcastTv.eventbus.ViewerCountEvent;
@@ -100,8 +101,7 @@ public class ViewerActivity extends AppCompatActivity implements ViewerContract.
     private String streamerNickname = "별칭";
     private String subject;
 
-    //private String hlsUrl = "http://115.71.238.61/hls/";
-    private String hlsUrl = "http://52.79.108.8/hls/";
+    private String hlsUrl = BuildConfig.SERVER_URL + "/hls/";
     private String streamingUrl;
 
     /* Bookmark */

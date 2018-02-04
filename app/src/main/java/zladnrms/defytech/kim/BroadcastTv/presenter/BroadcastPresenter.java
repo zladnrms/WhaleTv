@@ -213,8 +213,10 @@ public class BroadcastPresenter implements BroadcastContract.Presenter {
                                 Logger.t("BroadcastPresenter-onNext").d(repo.getResponse().get(i).getResult());
                                 if (recording) {
                                     if (result.equals("success") && record == 1) {
+                                        Logger.t("delBroadcastRoom").d("record 1");
                                         Toast.makeText(context, "방송을 종료합니다. 녹화본이 저장되었습니다.", Toast.LENGTH_SHORT).show();
                                     } else if (result.equals("success") && record == 0) {
+                                        Logger.t("delBroadcastRoom").d("record 0");
                                         Toast.makeText(context, "방송을 종료합니다. 30초 내의 방송은 녹화되지 않습니다..", Toast.LENGTH_SHORT).show();
                                     }
                                 }

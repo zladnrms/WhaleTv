@@ -168,7 +168,7 @@ public class BroadcastActivity extends AppCompatActivity implements BroadcastCon
         binding.rvChatList.setAdapter(rv_adapter);
 
         /* Init Chat Layout Height By Device */
-        changeChatLayoutHeight(2);
+        changeChatLayoutHeight(3);
 
         /* 채팅창 크기 토글 */
         binding.ivChatToggle.setOnClickListener(v -> {

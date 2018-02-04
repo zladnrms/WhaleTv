@@ -46,6 +46,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.orhanobut.logger.Logger;
 
+import zladnrms.defytech.kim.BroadcastTv.BuildConfig;
 import zladnrms.defytech.kim.BroadcastTv.contract.VideoViewerContract;
 import zladnrms.defytech.kim.BroadcastTv.R;
 import zladnrms.defytech.kim.BroadcastTv.databinding.ActivityVideoViewerBinding;
@@ -62,7 +63,7 @@ public class VideoViewerActivity extends AppCompatActivity implements VideoViewe
 
     private int videoId;
     private String nickname;
-    private String videoUrl = "http://52.79.108.8/record/";
+    private String videoUrl = BuildConfig.SERVER_URL + "/record/";
     private String subject;
     private String filename;
     private int viewCount;
